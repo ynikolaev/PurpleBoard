@@ -4,7 +4,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PurpleBoard</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="Yan Nikolaev's personal website, potentially future web development portfolio" />
+  <meta property="og:title" content="PurpleBoard" />
+  <meta property="og:description" content="Personal website" />
+  <meta property="og:image" content="/assets/images/logo.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3f3f3f">
+  <meta name="msapplication-TileColor" content="#3f3f3f">
+  <meta name="theme-color" content="#ffffff">
+  <title>Yan Nikolaev</title>
   <base href="/">
 
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -12,12 +22,12 @@
 
 <body>
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <nav class="navbar navbar-expand-md navbar-custom sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img src="/assets/images/logo.png">
+        <img src="/assets/images/logo2.png" alt="logo picture">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -41,32 +51,7 @@
       </div>
     </div>
   </nav>
-  <!--- Image Slider -->
-  <div id="slides" class="carousel slide" data-ride="carousel" style="width: 100%; height:20%; margin: 0 auto">
-    <ul class="carousel-indicators">
-      <li data-target="#slides" data-slide-to="0" class="active"></li>
-      <li data-target="#slides" data-slide-to="1"></li>
-      <li data-target="#slides" data-slide-to="2"></li>
-    </ul>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="/assets/images/background.png">
-        <div class="carousel-caption">
-          <h1 class="display-2">Bootstrap</h1>
-          <h3>Website Layout</h3>
-          <button type="button" class="btn btn-outline-light btn-lg">DEMO</button>
-          <button type="button" class="btn btn-primary btn-lg">Get Started</button>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="/assets/images/background2.png">
-      </div>
-      <div class="carousel-item">
-        <img src="/assets/images/background3.png">
-      </div>
-    </div>
-  </div>
-
+  <app-root></app-root>
   <!--- Jumbotron -->
   <div class="container-fluid">
     <div class="row jumbotron">
@@ -76,80 +61,39 @@
           specimen book.</p>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
-        <a href="#">
-          <button type="button" class="btn btn-outline-secondary btn-lg">Example</button>
-        </a>
+        <button type="button" class="btn btn-outline-secondary btn-lg">Example</button>
       </div>
     </div>
   </div>
-
-  <!--- Welcome Section -->
-  <div class="container-fluid padding">
-    <div class="row welcome text-center">
-      <div class="col-12">
-        <h1 class="display-4">Example Text</h1>
-      </div>
-      <hr>
-      <div class="col-12">
-        <p class="lead">It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-          It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-          with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-      </div>
-    </div>
-  </div>
-
-  <!--- Three Column Section -->
-  <div class="container-fluid padding">
-    <div class="row text-center padding">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <i class="fas fa-code"></i>
-        <h3>HTML5</h3>
-        <p>Some text</p>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <i class="fas fa-bold"></i>
-        <h3>BOOTSTRAP</h3>
-        <p>Some text</p>
-      </div>
-      <div class="col-sm-12 col-md-4">
-        <i class="fab fa-css3"></i>
-        <h3>CSS3</h3>
-        <p>Some text</p>
-      </div>
-    </div>
-    <hr class="my-4">
-  </div>
-
-  <!--- Two Column Section -->
-
-
-  <!--- Fixed background -->
-<figure>
-  <div class="fixed-wrap">
-    <div id="fixed">
-
-    </div>
-  </div>
-</figure>
-
-  <!--- Emoji Section -->
-
-
-  <!--- Meet the team -->
-
-
-  <!--- Cards -->
-
-
-  <!--- Two Column Section -->
-
-
-  <!--- Connect -->
-
 
   <!--- Footer -->
-
-  <app-root></app-root>
+  <footer>
+    <div class="container-fluid padding">
+      <div class="row text-center">
+        <div class="col-md-6">
+          <hr class="light">
+          <h5>CONTACTS</h5>
+          <hr class="light">
+          <p>phone number</p>
+          <p>email address</p>
+          <p>street</p>
+          <p>city, state, code</p>
+        </div>
+        <div class="col-md-6">
+          <hr class="light">
+          <h5>OUR HOURS</h5>
+          <hr class="light">
+          <p>Paragrraph text</p>
+          <p>Paragrraph text</p>
+          <p>Paragrraph text</p>
+        </div>
+        <div class="col-12">
+          <hr class="light-100">
+          <h5>&copy; website.com</h5>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>

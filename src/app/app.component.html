@@ -1,1 +1,23 @@
-
+<ngb-carousel *ngIf="images">
+    <ng-template ngbSlide>
+        <img [src]="images" alt="Random first slide">
+        <div class="carousel-caption">
+            <h1 class="display-2">Yan Nikolaev</h1>
+            <h3>Graduate Developer</h3>
+        </div>
+    </ng-template>
+    <ng-template ngbSlide>
+        <img [src]="images" alt="Random second slide">
+        <div class="carousel-caption">
+            <h3 class="display-2">No keyboard...</h3>
+            <h3>This carousel uses customized default values.</h3>
+        </div>
+    </ng-template>
+    <ng-template ngbSlide>
+        <img [src]="images" alt="Random third slide">
+        <div class="carousel-caption">
+            <h3 class="display-2">And no wrap after last slide.</h3>
+            <h3>This carousel uses customized default values.</h3>
+        </div>
+    </ng-template>
+</ngb-carousel>
