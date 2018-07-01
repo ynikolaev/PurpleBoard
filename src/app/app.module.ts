@@ -4,6 +4,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+import { ClarityModule } from '@clr/angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CarouselComponent } from './routes/carousel/carousel.component';
 import { ContactsComponent } from './routes/contacts/contacts.component';
@@ -78,10 +80,13 @@ const websiteRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AlertModule.forRoot(),
     NgbModule.forRoot(),
     BrowserAnimationsModule,
-    RouterModule.forRoot(websiteRoutes)
+    RouterModule.forRoot(websiteRoutes),
+    ClarityModule
   ],
   providers: [],
   bootstrap: [AppComponent]

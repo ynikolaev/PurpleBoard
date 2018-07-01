@@ -1,9 +1,12 @@
 /*---Footer Section --*/
-
+h5, p {
+    color: #fff;
+}
 footer {
     background-color: #3f3f3f;
     color: #d5d5d5;
-    padding-top: 2rem;
+    padding-top: 1rem;
+    margin-top: 1rem;
 }
 
 hr.light {

@@ -13,23 +13,23 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" routerLink="/home" (click)="setColor('black')">
-                        <i class="fab fa fa-home"></i> Home</a>
+                        Home</a>
                 </li>
                 <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" routerLink="/contacts" (click)="setColor('green')">
-                        <i class="fa fa-id-badge"></i> Contacts</a>
+                        Contacts</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" routerLink="#" (click)="setColor('purple')">
-                        <i class="fa fa-columns"></i> Purple Board</a>
+                        Purple Board</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" routerLink="#">
-                        <i class="fa fa-question"></i> About</a>
+                        About</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link"routerLink="">
-                        <span class="fa fa-id-badge"></span> Profile</a>
+                <li class="nav-item" routerLinkActive="active">
+                    <button class="btn btn-inverse" (click)="openModal()">
+                        Login</button>
                 </li>
             </ul>
         </div>
@@ -41,3 +41,32 @@
 
     <footer-app></footer-app>
 </div>
+
+<clr-modal [(clrModalOpen)]="loginModal" [clrModalStaticBackdrop]="true" [clrModalSize]="'lg'">
+    <div class="modal-body">
+        <div class="login-wrapper">
+            <form class="login">
+                <section class="title">
+                    <h3 class="welcome">Welcome to</h3>
+                    Purple Board
+                    <h5 class="hint">Use your Email to sign in or create one now</h5>
+                </section>
+                <div class="login-group">
+                    <div class="error inactive">
+                        Invalid user name or password
+                    </div>
+                    <input class="email" type="email" id="login_email" placeholder="Email">
+                    <input class="password" type="password" id="login_password" placeholder="Password">
+                    <div class="checkbox">
+                        <input type="checkbox" id="rememberme">
+                        <label for="rememberme">
+                            Remember me
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="employeeAddressForm.invalid" (click)="closeModal()">NEXT</button>
+                    <a href="javascript://" class="signup">Sign up for ID</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</clr-modal>
