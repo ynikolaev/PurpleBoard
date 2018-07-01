@@ -1,23 +1,43 @@
-<ngb-carousel *ngIf="images">
-    <ng-template ngbSlide>
-        <img [src]="images" alt="Random first slide">
-        <div class="carousel-caption">
-            <h1 class="display-2">Yan Nikolaev</h1>
-            <h3>Graduate Developer</h3>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-custom sticky-top" [@changeState]="switchstate">
+    <div class="container-fluid">
+        <span class="navbar-brand">
+            <a routerLink="/home">
+                <img class="logo" src="/assets/images/logo3.png" alt="logo picture">
+            </a>
+        </span>
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive" data-toggle="collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/home" (click)="setColor('black')">
+                        <i class="fab fa fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/contacts" (click)="setColor('green')">
+                        <i class="fa fa-id-badge"></i> Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="#" (click)="setColor('purple')">
+                        <i class="fa fa-columns"></i> Purple Board</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="#">
+                        <i class="fa fa-question"></i> About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"routerLink="">
+                        <span class="fa fa-id-badge"></span> Profile</a>
+                </li>
+            </ul>
         </div>
-    </ng-template>
-    <ng-template ngbSlide>
-        <img [src]="images" alt="Random second slide">
-        <div class="carousel-caption">
-            <h3 class="display-2">No keyboard...</h3>
-            <h3>This carousel uses customized default values.</h3>
-        </div>
-    </ng-template>
-    <ng-template ngbSlide>
-        <img [src]="images" alt="Random third slide">
-        <div class="carousel-caption">
-            <h3 class="display-2">And no wrap after last slide.</h3>
-            <h3>This carousel uses customized default values.</h3>
-        </div>
-    </ng-template>
-</ngb-carousel>
+    </div>
+</nav>
+
+<div class="page" [@routerAnimations]="prepareRouteTransition(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+
+    <footer-app></footer-app>
+</div>

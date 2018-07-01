@@ -1,0 +1,37 @@
+<ngb-carousel #carousel *ngIf="images">
+    <ng-template ngbSlide>
+        <img [src]="images" alt="Random first slide">
+        <div class="carousel-caption">
+            <h1 class="display-2">Yan Nikolaev</h1>
+            <h3>Graduate Developer</h3>
+        </div>
+    </ng-template>
+    <ng-template ngbSlide>
+        <img [src]="images" alt="Random second slide">
+        <div class="carousel-caption">
+            <h3 class="display-2">No keyboard...</h3>
+            <h3>This carousel uses customized default values.</h3>
+        </div>
+    </ng-template>
+    <ng-template ngbSlide>
+        <img [src]="images" alt="Random third slide">
+        <div class="carousel-caption">
+            <h3 class="display-2">And no wrap after last slide.</h3>
+            <h3>This carousel uses customized default values.</h3>
+        </div>
+    </ng-template>
+</ngb-carousel>
+
+<!--- Jumbotron -->
+<div class="container-fluid">
+    <div class="row jumbotron">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+            <p class="lead">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
+                to make a type specimen book.</p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+            <button type="button" class="btn btn-outline-secondary btn-lg">Example</button>
+        </div>
+    </div>
+</div>

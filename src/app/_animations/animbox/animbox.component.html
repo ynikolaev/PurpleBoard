@@ -1,0 +1,4 @@
+<div class="mybox mx-auto" [@changeState]="inputAnimateBox" (@changeState.start)="animationBegin($event)" (@changeState.done)="animationEnd($event)">
+    <p class="lead">{{msg}}
+    </p>
+</div>

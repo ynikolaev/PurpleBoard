@@ -1,0 +1,89 @@
+/*---Icons --*/
+
+.fa-code {
+    color: #e54d26;
+}
+
+.fa-bold {
+    color: #563d7c;
+}
+
+.fa-css3 {
+    color: #2163af;
+}
+
+.fa-code, .fa-bold, .fa-css3 {
+    font-size: 4em;
+    margin: 1rem;
+}
+
+/*---Connect Section --*/
+
+.social a {
+    font-size: 4.5em;
+    padding: 3rem;
+}
+
+.social a:hover {
+    color: white;
+}
+
+.fa-facebook:hover {
+    color: #3b5998;
+    transform: scale(1.2);
+}
+
+.fa-twitter:hover {
+    color: #00aced;
+    transform: scale(1.2);
+}
+
+.fa-github:hover {
+    color: purple;
+    transform: scale(1.2);
+}
+
+.fa-instagram:hover {
+    color: #517fa4;
+    transform: scale(1.2);
+}
+
+.fa-linkedin:hover {
+    color: #157efb;
+    transform: scale(1.2);
+}
+
+.fa-facebook, .fa-twitter, .fa-github, .fa-instagram, .fa-linkedin {
+    color: #3f3f3f;
+}
+
+/*---Media Queries --*/
+
+@media (max-width: 992px) {
+    .social a {
+        font-size: 4em;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 200%;
+    }
+
+    .social a {
+        font-size: 3.5em;
+        padding: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .display-4 {
+        font-size: 160%;
+    }
+
+    .social a {
+        font-size: 2.5em;
+        padding: .7rem;
+    }
+}

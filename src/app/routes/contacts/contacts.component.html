@@ -5,10 +5,18 @@
             <h1 class="display-4">Example Text.</h1>
         </div>
         <hr>
-        <div class="col-12">
-            <p class="lead">It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
-                unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <div class="col-4">
+            <div class="btn-group-vertical btn-block" style="margin-top:1rem;">
+                <a (click)="setState('original')" class="btn btn-primary">Return to Original (original)</a>
+                <a (click)="setState('basic')" class="btn btn-primary">Animation (basic)</a>
+                <a (click)="setState('delaying')" class="btn btn-primary">Animation with Delay (delaying)</a>
+                <a (click)="setState('easing')" class="btn btn-primary">Animation with Ease (easing)</a>
+                <a (click)="setState('stepped')" class="btn btn-primary">Stepped Animation (stepped)</a>
+                <a (click)="setState('parallel')" class="btn btn-primary">Parallel Animation (parallel)</a>
+            </div>
+        </div>
+        <div class="col-8">
+            <animbox [inputAnimateBox]="switchstate"></animbox>
         </div>
     </div>
 </div>

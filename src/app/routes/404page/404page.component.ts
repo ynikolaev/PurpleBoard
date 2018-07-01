@@ -3,7 +3,7 @@ import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   templateUrl: './404page.component.html',
-  styleUrls: []
+  styleUrls: ['./404page.component.css']
 })
 export class NotFoundPage {
   constructor(config: NgbCarouselConfig) {

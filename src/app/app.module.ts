@@ -5,55 +5,83 @@ import { AlertModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './routes/home.component';
-import { BasicComponent } from './routes/basic.component';
-import { ContainedComponent } from './routes/contained.component';
-import { AdvancedComponent } from './routes/advanced.component';
+import { CarouselComponent } from './routes/carousel/carousel.component';
+import { ContactsComponent } from './routes/contacts/contacts.component';
+import { ContainedComponent } from './routes/purpleboard/contained.component';
+import { AdvancedComponent } from './routes/about/advanced.component';
 import { AppComponent } from './app.component';
+
+import { AnimboxComponent } from './_animations/animbox/animbox.component';
+
 import { NotFoundPage } from './routes/404page/404page.component';
+import { FooterComponent } from './footer/footer.component';
+
 
 const websiteRoutes: Routes = [
   {
     path: 'home',
-    component: AppComponent
+    component: CarouselComponent,
+    data: {
+      animation: {
+        value: 'home',
+      }
+    }
   },
   {
-    path: 'animation-home',
-    component: HomeComponent
-  },
-  {
-    path: 'animation-basics',
-    component: BasicComponent
+    path: 'contacts',
+    component: ContactsComponent,
+    data: {
+      animation: {
+        value: 'contacts',
+      }
+    }
   },
   {
     path: 'animation-contained',
     component: ContainedComponent
   },
   {
-    path: 'animation-advanced',
+    path: 'about',
     component: AdvancedComponent
   },
   {
     path: '',
     redirectTo: '/home',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: {
+      animation: {
+        value: 'home',
+      }
+    }
   },
-  { path: '**', component: NotFoundPage }
+  {
+    path: '**',
+    component: NotFoundPage,
+    data: {
+      animation: {
+        value: 'notfound',
+      }
+    }
+  }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    BasicComponent,
+    CarouselComponent,
+    ContactsComponent,
     ContainedComponent,
-    AdvancedComponent
+    AdvancedComponent,
+    AnimboxComponent,
+    FooterComponent,
+    NotFoundPage
   ],
   imports: [
     BrowserModule,
     AlertModule.forRoot(),
     NgbModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RouterModule.forRoot(websiteRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
