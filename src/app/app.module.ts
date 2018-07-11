@@ -8,6 +8,7 @@ import { ClarityModule } from '@clr/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { CarouselComponent } from './routes/carousel/carousel.component';
 import { ContactsComponent } from './routes/contacts/contacts.component';
@@ -108,10 +109,13 @@ const ROUTES: Routes = [
     AlertModule.forRoot(),
     NgbModule.forRoot(),
     BrowserAnimationsModule,
-    RouterModule.forRoot(ROUTES),
+    RouterModule.forRoot(ROUTES, {useHash: true}),
     ClarityModule
   ],
-  providers: [],
+  providers: [
+    { provide: APP_BASE_HREF, useValue: '/' },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

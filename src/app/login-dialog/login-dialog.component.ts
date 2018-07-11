@@ -1,7 +1,6 @@
 import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { forbiddenNameValidator } from '../_shared/forbidden-name.directive';
 
 @Component({
   selector: 'app-login-dialog',

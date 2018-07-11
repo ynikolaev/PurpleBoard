@@ -1,6 +1,57 @@
 <clr-modal [(clrModalOpen)]="showRegister" [clrModalStaticBackdrop]="true" [clrModalSize]="'lg'" [clrModalClosable]="false">
-    <div class="modal-body">
-      <div class="login-wrapper">
-      </div>
+  <div class="modal-body">
+    <div class="login-wrapper">
+      <form class="login" autocomplete="nope" novalidate [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <section class="title">
+          <h3 class="welcome">Welcome to</h3>
+          REGISTRATION
+          <h5 class="hint" class="hint">Enter your details to proceed</h5>
+        </section>
+        <div class="login-group" [ngClass]="{
+              'has-danger': email.invalid && (email.dirty || email.touched),
+              'has-success': email.valid && (email.dirty || email.touched) }">
+          <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+            <p *ngIf="email.errors.required">Email is required</p>
+            <p *ngIf="email.errors.pattern">The email address must contain at least the @ character</p>
+          </div>
+          <input type="email" class="email" name="email" required formControlName="email" placeholder="Email">
+        </div>
+
+        <div class="login-group" [ngClass]="{
+              'has-danger': password.invalid && (password.dirty || password.touched),
+              'has-success': password.valid && (password.dirty || password.touched) }">
+          <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+            <p *ngIf="password.errors.required">Password is required</p>
+            <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}
+              characters </p>
+          </div>
+          <input type="password" class="password" name="password" required formControlName="password" placeholder="Password">
+        </div>
+
+        <div class="login-group" [ngClass]="{
+          'has-danger': firstname.invalid && (firstname.dirty || firstname.touched),
+          'has-success': firstname.valid && (firstname.dirty || firstname.touched) }">
+          <div class="form-control-feedback" *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">
+            <p *ngIf="firstname.errors.required">Enter your firstname</p>
+            <p *ngIf="firstname.errors.minlength">Firstname must be min 2 characters long</p>
+          </div>
+          <input type="text" class="firstname" name="firstname" required formControlName="firstname" placeholder="Firstname">
+        </div>
+
+        <div class="login-group" [ngClass]="{
+          'has-danger': lastname.invalid && (lastname.dirty || lastname.touched),
+          'has-success': lastname.valid && (lastname.dirty || lastname.touched) }">
+          <div class="form-control-feedback" *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">
+            <p *ngIf="lastname.errors.required">Enter your lastname</p>
+            <p *ngIf="lastname.errors.minlength">Lastname must be min 2 characters long</p>
+          </div>
+          <input type="text" class="lastname" name="lastname" autocomplete="off" required formControlName="lastname" placeholder="Lastname">
+        </div>
+
+        <button type="submit" class="btn btn-primary">SIGN UP</button>
+        <button type="button" (click)="close()" class="btn btn-primary-outline">CANCEL</button>
+      </form>
     </div>
-  </clr-modal>
+  </div>
+</clr-modal>

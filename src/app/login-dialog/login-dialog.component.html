@@ -26,7 +26,7 @@
             <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}
               characters </p>
           </div>
-            <input type="password" class="password" name="password" required formControlName="password" placeholder="Password">
+          <input type="password" class="password" name="password" required formControlName="password" placeholder="Password">
         </div>
 
         <div class="checkbox">
@@ -36,10 +36,10 @@
           </label>
         </div>
 
-        <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <button type="submit" class="btn btn-primary">SIGN IN</button>
         <button type="button" (click)="close()" class="btn btn-primary-outline">CANCEL</button>
-        <div>
-          <a href="javascript://" (click)="openRegister()" class="signup">Sign up for ID</a>
+        <div class="text-lg-center">
+          Or <a href="javascript://" (click)="openRegister()" class="signup">Sign up for ID</a>
         </div>
       </form>
     </div>
