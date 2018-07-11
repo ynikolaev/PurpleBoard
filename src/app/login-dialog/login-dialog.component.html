@@ -1,0 +1,49 @@
+<clr-modal [(clrModalOpen)]="showLogin" [clrModalStaticBackdrop]="true" [clrModalSize]="'lg'" [clrModalClosable]="false">
+  <div class="modal-body">
+    <div class="login-wrapper">
+      <form class="login" novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <section class="title">
+          <h3 class="welcome">Welcome to</h3>
+          Purple Board
+          <h5 class="hint" class="hint">Use your Email to sign in or create one now</h5>
+        </section>
+        <div class="login-group" [ngClass]="{
+        'has-danger': email.invalid && (email.dirty || email.touched),
+        'has-success': email.valid && (email.dirty || email.touched) }">
+          <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+            <p *ngIf="email.errors.required">Email is required</p>
+            <p *ngIf="email.errors.pattern">The email address must contain at least the @ character</p>
+          </div>
+          <input type="email" class="email" name="email" autocomplete="off" required formControlName="email" placeholder="Email">
+        </div>
+
+        <div class="login-group" [ngClass]="{
+        'has-danger': password.invalid && (password.dirty || password.touched),
+        'has-success': password.valid && (password.dirty || password.touched) }">
+          <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+            <p *ngIf="password.errors.required">Password is required</p>
+            <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}
+              characters </p>
+          </div>
+            <input type="password" class="password" name="password" required formControlName="password" placeholder="Password">
+        </div>
+
+        <div class="checkbox">
+          <input type="checkbox" id="rememberme">
+          <label for="rememberme">
+            Remember me
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <button type="button" (click)="close()" class="btn btn-primary-outline">CANCEL</button>
+        <div>
+          <a href="javascript://" (click)="openRegister()" class="signup">Sign up for ID</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</clr-modal>
+
+<app-register-dialog></app-register-dialog>

@@ -25,16 +25,16 @@
             "styles": [
               "src/styles.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/@clr/ui/clr-ui.min.css",
-              "node_modules/@clr/icons/clr-icons.min.css"
+              "./node_modules/@clr/ui/clr-ui.min.css",
+              "./node_modules/@clr/icons/clr-icons.min.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.slim.min.js",
               "./node_modules/popper.js/dist/umd/popper.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/@fortawesome/fontawesome-free/js/all.js",
-              "node_modules/@clr/icons/clr-icons.min.js",
-              "node_modules/@webcomponents/custom-elements/custom-elements.min.js"
+              "./node_modules/@clr/icons/clr-icons.min.js",
+              "./node_modules/@webcomponents/custom-elements/custom-elements.min.js"
             ]
           },
           "configurations": {

@@ -1,26 +1,3 @@
-<!--- Welcome Section -->
-<div class="container-fluid padding">
-    <div class="row welcome text-center">
-        <div class="col-12">
-            <h1 class="display-4">Example Text.</h1>
-        </div>
-        <hr>
-        <div class="col-4">
-            <div class="btn-group-vertical btn-block" style="margin-top:1rem;">
-                <a (click)="setState('original')" class="btn btn-primary">Return to Original (original)</a>
-                <a (click)="setState('basic')" class="btn btn-primary">Animation (basic)</a>
-                <a (click)="setState('delaying')" class="btn btn-primary">Animation with Delay (delaying)</a>
-                <a (click)="setState('easing')" class="btn btn-primary">Animation with Ease (easing)</a>
-                <a (click)="setState('stepped')" class="btn btn-primary">Stepped Animation (stepped)</a>
-                <a (click)="setState('parallel')" class="btn btn-primary">Parallel Animation (parallel)</a>
-            </div>
-        </div>
-        <div class="col-8">
-            <animbox [inputAnimateBox]="switchstate"></animbox>
-        </div>
-    </div>
-</div>
-
 <!--- Connect -->
 <div class="container-fluid padding">
     <div class="row text-center padding">

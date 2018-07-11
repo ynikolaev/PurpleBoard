@@ -1,0 +1,41 @@
+/*---Login Section --*/
+.register-wrapper {
+    background-image: url("/assets/images/background4.jpg");
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: right center;
+}
+
+.register-wrapper .register .register-group {
+    padding: 0.2rem 0 0;
+}
+
+.register-wrapper .register {
+    min-height: 10vh !important;
+    background: #f6f6f6;
+}
+
+.modal-dialog .modal-content {
+    padding: 0.1rem;
+}
+
+.modal-dialog .modal-content {
+    padding: 0.1rem;
+}
+
+.modal-header {
+    padding: 0 0 1rem;
+    border-bottom: 0.5rem;
+}
+
+.register-wrapper .register .register-group .btn {
+    margin: 0.5rem 0 0;
+}
+
+.register-wrapper .register .register-group .error.active {
+    margin: 0 0 0.5rem;
+}
+
+.welcome {
+    padding: 0;
+}

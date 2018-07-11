@@ -1,0 +1,59 @@
+/*---Validation --*/
+.tooltip {
+    opacity: 1;
+}
+
+.ng-valid[required], .ng-valid.required, .clr-input:not([readonly]).clr-focus, .clr-input:not([readonly]):focus input[type=email]:not([readonly]):focus {
+    border-bottom: 1px solid #42A948 !important;
+    background: linear-gradient(to bottom,transparent 95%,#42A948 95%) no-repeat !important;
+}
+
+.ng-touched.ng-invalid[required], .ng-valid.required, .clr-input:not([readonly]).clr-focus, .clr-input:not([readonly]):focus input[type=email]:not([readonly]):focus {
+    border-bottom: 1px solid #a94442;
+    background: linear-gradient(to bottom,transparent 95%,#a94442 95%) no-repeat;
+}
+
+.ng-dirty.ng-untouched.ng-invalid[required], .ng-valid.required, .clr-input:not([readonly]).clr-focus, .clr-input:not([readonly]):focus input[type=email]:not([readonly]):focus {
+    border-bottom: 1px solid #a94442;
+    background: linear-gradient(to bottom,transparent 95%,#a94442 95%) no-repeat;
+}
+
+
+/*---Login Section --*/
+
+.login-wrapper {
+    background-image: url("/assets/images/background4.jpg");
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: right center;
+}
+
+.login-wrapper .login .login-group {
+    padding: 0.2rem 0 0;
+}
+
+.login-wrapper .login {
+    min-height: 10vh !important;
+    background: #f6f6f6;
+}
+
+.modal-dialog .modal-content {
+    padding: 0.1rem;
+}
+
+.modal-header {
+    padding: 0 0 1rem;
+    border-bottom: 0.5rem;
+}
+
+.login-wrapper .login .login-group .btn {
+    margin: 0.5rem 0 0;
+}
+
+.login-wrapper .login .login-group .error.active {
+    margin: 0 0 0.5rem;
+}
+
+.welcome {
+    padding: 0;
+}
