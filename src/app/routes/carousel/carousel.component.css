@@ -131,7 +131,7 @@ img {
 }
 
 #fixed {
-    background-image: url("/assets/images/background4.jpg");
+    background-image: url("../../../assets/images/background4.jpg");
     position: fixed;
     display: block;
     top: 0;

@@ -22,7 +22,7 @@
 /*---Login Section --*/
 
 .login-wrapper {
-    background-image: url("/assets/images/background4.jpg");
+    background-image: url("../../assets/images/background4.jpg");
     background-repeat: no-repeat;
     background-size: auto;
     background-position: right center;
