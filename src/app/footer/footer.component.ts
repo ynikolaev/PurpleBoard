@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ContactsComponent } from '../routes/contacts/contacts.component';
 
 @Component({
     selector: 'footer-app',

@@ -1,9 +1,10 @@
 <!-- Navigation -->
+<ng2-slim-loading-bar color={{color}} [height]="'5px'"></ng2-slim-loading-bar>
 <nav class="navbar navbar-expand-md navbar-custom sticky-top" [@changeState]="switchstate">
     <div class="container-fluid">
         <span class="navbar-brand">
             <a routerLink="/home">
-                <img class="logo" src="./assets/images/logo3.png" alt="logo picture">
+                <img class="logo" src="./assets/images/logo3.png" alt="logo picture" (click)="scrollTop()">
             </a>
         </span>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
@@ -12,24 +13,27 @@
         <div class="collapse navbar-collapse" id="navbarResponsive" data-toggle="collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" routerLink="/home" (click)="setColor('black')">
+                    <a class="nav-link" routerLink="/home" (click)="setColor('black'); scrollTop();">
                         Home</a>
                 </li>
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" routerLink="/contacts" (click)="setColor('green')">
-                        Contacts</a>
-                </li>
-                <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" routerLink="/purpleboard" (click)="setColor('purple')">
+                    <a class="nav-link" routerLink="/boards" (click)="setColor('purple'); scrollTop();">
                         Purple Board</a>
                 </li>
-                <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" routerLink="/admin" (click)="setColor('blue')">
+                <li *ngIf="auth.isAdmin()" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/admin" (click)="setColor('blue'); scrollTop();">
                         Admin</a>
                 </li>
-                <li class="nav-item" routerLinkActive="active">
-                    <button class="btn btn-inverse" (click)="loginModal.open()">
+                <li *ngIf="!auth.isLoggedIn()" class="nav-item" routerLinkActive="active">
+                    <button class="btn btn-inverse" (click)="loginModal.open('home'); scrollTop();">
                         Login</button>
+                </li>
+                <li *ngIf="auth.isLoggedIn()" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/profile" (click)="scrollTop();">Profile{{ auth.getUserDetails()?.firstname }} {{ auth.getUserDetails()?.lastname }}</a>
+                </li>
+                <li *ngIf="auth.isLoggedIn()" class="nav-item" routerLinkActive="active">
+                    <button class="btn btn-inverse" (click)="auth.logout()">
+                        Logout</button>
                 </li>
             </ul>
         </div>

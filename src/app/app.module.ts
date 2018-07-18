@@ -5,14 +5,28 @@ import { AlertModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { HttpModule } from '@angular/http';
+import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import {
+  MatInputModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSortModule,
+  MatTableModule,
+  MatIconModule,
+  MatButtonModule,
+  MatCardModule,
+  MatFormFieldModule
+} from "@angular/material";
+import { PurpleboardModule } from './routes/purpleboard/purpleboard.module';
+import { MomentModule } from 'ngx-moment';
 
 import { CarouselComponent } from './routes/carousel/carousel.component';
 import { ContactsComponent } from './routes/contacts/contacts.component';
-import { PurpleBoardComponent } from './routes/purpleboard/purpleboard.component';
+//import { PurpleBoardComponent } from './routes/purpleboard/purpleboard.component';
 import { AdvancedComponent } from './routes/about/advanced.component';
 import { AppComponent } from './app.component';
 
@@ -21,9 +35,13 @@ import { AnimboxComponent } from './_animations/animbox/animbox.component';
 import { NotFoundPage } from './routes/404page/404page.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
-import { RegisterDialogComponent } from './register-dialog/register-dialog.component';
 import { AdminComponent } from './admin/admin.component';
+import { UserDetailsComponent } from './admin/user-details/user-details.component';
+import { ProfileComponent } from './profile/profile.component';
 
+import { UserService } from './_services/users.service';
+import { AuthenticationService } from './_services/authentication.service';
+import { AuthGuardService } from './_services/auth-guard.service';
 
 const ROUTES: Routes = [
   {
@@ -38,6 +56,7 @@ const ROUTES: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [AuthGuardService],
     data: {
       animation: {
         value: 'admin',
@@ -45,20 +64,12 @@ const ROUTES: Routes = [
     }
   },
   {
-    path: 'contacts',
-    component: ContactsComponent,
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuardService],
     data: {
       animation: {
-        value: 'contacts',
-      }
-    }
-  },
-  {
-    path: 'purpleboard',
-    component: PurpleBoardComponent,
-    data: {
-      animation: {
-        value: 'purpleboard',
+        value: 'profile',
       }
     }
   },
@@ -92,29 +103,47 @@ const ROUTES: Routes = [
     AppComponent,
     CarouselComponent,
     ContactsComponent,
-    PurpleBoardComponent,
     AdvancedComponent,
     AnimboxComponent,
     FooterComponent,
     NotFoundPage,
     LoginDialogComponent,
-    RegisterDialogComponent,
-    AdminComponent
+    AdminComponent,
+    UserDetailsComponent,
+    ProfileComponent
   ],
   imports: [
-    HttpModule,
     HttpClientModule,
+    HttpModule,
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
     AlertModule.forRoot(),
     NgbModule.forRoot(),
     BrowserAnimationsModule,
-    RouterModule.forRoot(ROUTES, {useHash: true}),
-    ClarityModule
+    ClarityModule,
+    SlimLoadingBarModule,
+    PurpleboardModule,
+    MomentModule,
+    RouterModule.forRoot(ROUTES, { onSameUrlNavigation: 'reload' })
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+    UserService,
+    AuthenticationService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

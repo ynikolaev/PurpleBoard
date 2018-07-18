@@ -14,12 +14,13 @@ export class CarouselComponent implements OnInit {
     @ViewChild('carousel') carousel: any;
     constructor(config: NgbCarouselConfig) {
         this.background1 = this.images.push("./assets/images/background1.gif");
-        this.background2 = this.images.push("./assets/images/background1.png");
+        this.background2 = this.images.push("./assets/images/background1.gif");
         // customize default values of carousels used by this component tree
         config.interval = 0;
-        config.wrap = false;
-        config.keyboard = false;
+        config.wrap = true;
+        config.keyboard = true;
         config.showNavigationArrows = false;
+        config.showNavigationIndicators = false;
     }
     ngOnInit() {
         console.log("OnInit Carousel loaded");

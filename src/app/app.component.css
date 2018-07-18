@@ -1,5 +1,10 @@
 /*---Navigation Section --*/
 
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
 .logo {
     height: 20% !important;
     width: 20%;

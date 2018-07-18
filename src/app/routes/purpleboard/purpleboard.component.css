@@ -12,3 +12,26 @@
     height: 20%;
     width: 20%;
 }
+
+.card {
+    display: inline-block;
+    margin: 1rem;
+}
+
+@media (max-width: 992px) {
+
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin: 0 0 1rem;
+        padding: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        margin: 0 0 1rem;
+        padding: 0;
+    }
+}

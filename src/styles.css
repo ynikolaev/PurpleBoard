@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+@import "../node_modules/ng2-slim-loading-bar/style.css";
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 /*---Global Section --*/
 

@@ -5,7 +5,7 @@
 
         <section class="title">
           <h3 class="welcome">Welcome to</h3>
-          Purple Board
+          LOGIN PAGE
           <h5 class="hint" class="hint">Use your Email to sign in or create one now</h5>
         </section>
         <div class="login-group" [ngClass]="{
@@ -29,21 +29,139 @@
           <input type="password" class="password" name="password" required formControlName="password" placeholder="Password">
         </div>
 
-        <div class="checkbox">
-          <input type="checkbox" id="rememberme">
-          <label for="rememberme">
-            Remember me
-          </label>
-        </div>
-
         <button type="submit" class="btn btn-primary">SIGN IN</button>
         <button type="button" (click)="close()" class="btn btn-primary-outline">CANCEL</button>
         <div class="text-lg-center">
-          Or <a href="javascript://" (click)="openRegister()" class="signup">Sign up for ID</a>
+          Or
+          <a href="javascript://" (click)="openRegister()" class="signup">Sign Up for ID</a>
         </div>
       </form>
     </div>
   </div>
 </clr-modal>
 
-<app-register-dialog></app-register-dialog>
+<clr-modal [(clrModalOpen)]="showRegister" [clrModalStaticBackdrop]="true" [clrModalSize]="'lg'" [clrModalClosable]="false">
+  <div class="modal-body">
+    <div class="login-wrapper">
+      <form class="login" autocomplete="nope" novalidate [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <section class="title">
+          <h3 class="welcome">Welcome to</h3>
+          REGISTRATION PAGE
+          <h5 class="hint" class="hint">Enter your details to proceed</h5>
+          <div class="alert alert-danger" *ngIf="email.errors && (email.dirty || email.touched)">
+            <div class="alert-items" *ngIf="email.errors.required">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Email is required</span>
+              </div>
+            </div>
+            <div class="alert-items" *ngIf="email.errors.isEmailUnique">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Email is already registered</span>
+              </div>
+            </div>
+            <div class="alert-items" *ngIf="email.errors.pattern">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">The email address must contain at least the @ character</span>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-danger" *ngIf="password.errors && (password.dirty || password.touched)">
+            <div class="alert-items" *ngIf="password.errors.required">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Password is required</span>
+              </div>
+            </div>
+            <div class="alert-items" *ngIf="password.errors.minlength">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}
+                  characters </span>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-danger" *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">
+            <div class="alert-items" *ngIf="firstname.errors.required">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Enter your firstname</span>
+              </div>
+            </div>
+            <div class="alert-items" *ngIf="firstname.errors.minlength">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Firstname must be min 2 characters long</span>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-danger" *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">
+            <div class="alert-items" *ngIf="lastname.errors.required">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Enter your lastname</span>
+              </div>
+            </div>
+            <div class="alert-items" *ngIf="lastname.errors.minlength">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Lastname must be min 2 characters long</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="login-group" [ngClass]="{
+                'has-danger': email.invalid && (email.dirty || email.touched),
+                'has-success': email.valid && (email.dirty || email.touched) }">
+          <input type="email" class="email" name="email" required formControlName="email" placeholder="Email">
+        </div>
+
+        <div class="login-group" [ngClass]="{
+                'has-danger': password.invalid && (password.dirty || password.touched),
+                'has-success': password.valid && (password.dirty || password.touched) }">
+          <input type="password" class="password" name="password" required formControlName="password" placeholder="Password">
+        </div>
+
+        <div class="login-group" [ngClass]="{
+            'has-danger': firstname.invalid && (firstname.dirty || firstname.touched),
+            'has-success': firstname.valid && (firstname.dirty || firstname.touched) }">
+          <input type="text" class="firstname" name="firstname" required formControlName="firstname" placeholder="Firstname">
+        </div>
+
+        <div class="login-group" [ngClass]="{
+            'has-danger': lastname.invalid && (lastname.dirty || lastname.touched),
+            'has-success': lastname.valid && (lastname.dirty || lastname.touched) }">
+          <input type="text" class="lastname" name="lastname" autocomplete="off" required formControlName="lastname" placeholder="Lastname">
+        </div>
+
+        <button type="submit" class="btn btn-primary">SIGN UP</button>
+        <button type="button" (click)="close()" class="btn btn-primary-outline">CANCEL</button>
+        <div class="text-lg-center">
+          Or
+          <a href="javascript://" (click)="openLogin()" class="signup">Sign In using ID</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</clr-modal>

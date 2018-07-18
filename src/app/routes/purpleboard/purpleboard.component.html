@@ -1,6 +1,19 @@
-<div class="container-fluid">
-    <div class="col-12 messageblock">
-        <img class="image" [src]="image" alt="Flask image">
-        <h1>Coming Soon...</h1>
+<div class="container-fluid padding">
+    <div class="text-center">
+        <div class="col-12 text-center padding">
+            <div *ngFor="let board of boards$ | async" [class.selected]="board.id === selectedId" class="card col-xs-12 col-sm-12 col-md-4 col-lg-3 col-xl-3">
+                <div class="card-header">
+                    <span class="badge">{{ board.id }}</span> <a [routerLink]="['/board', board.id]">{{ board.name }}</a>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a [routerLink]="['/board', board.id]" class="btn btn-primary">Open Board</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Last updated: {{ board.date }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
