@@ -1,11 +1,12 @@
 import { NgModule }       from '@angular/core';
 import { CommonModule }   from '@angular/common';
-import { FormsModule }    from '@angular/forms';
- 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { PurpleBoardDetailComponent }    from './purpleboard-detail.component';
 import { PurpleBoardComponent }  from './purpleboard.component';
  
-import { PurpleboardService } from './purpleboard.service';
+import { PurpleboardService } from '../../_services/purpleboard.service';
 
 import { PurpleboardRoutingModule } from './purpleboard-routing.module';
  
@@ -13,7 +14,9 @@ import { PurpleboardRoutingModule } from './purpleboard-routing.module';
   imports: [
     CommonModule,
     FormsModule,
-    PurpleboardRoutingModule
+    ReactiveFormsModule,
+    PurpleboardRoutingModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     PurpleBoardDetailComponent,

@@ -87,6 +87,15 @@ export class AuthenticationService {
         }
     }
 
+    public getId(): String {
+        const user = this.getUserDetails();
+        if (user) {
+            return user._id;
+        } else {
+            return null;
+        }
+    }
+
     private request(method: 'post' | 'get', type: 'isEmailRegisterd' | 'login' | 'register' | 'profile', user?: TokenPayload): Observable<any> {
         let base;
 

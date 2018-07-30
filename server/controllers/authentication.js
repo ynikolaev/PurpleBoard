@@ -10,25 +10,19 @@ let sendJSONresponse = function (res, status, content) {
 module.exports.isEmailRegisterd = function (req, res) {
     User.findOne({ email: req.body.email }, function (err, user) {
         if (err) {
-            res.status(400);
-            res.json({
+            sendJSONresponse(res, 302, {
                 "message": "Database Issue (auth: 15)"
             });
-            return null;
         }
         // Return if email was found in database
         if (user) {
-            res.status(302);
-            res.json({
-                "isEmailUnique" : false
+            sendJSONresponse(res, 200, {
+                "isEmailUnique": false
             });
-            return true;
         } else {
-            res.status(200);
-            res.json({
-                "isEmailUnique" : true
+            sendJSONresponse(res, 200, {
+                "isEmailUnique": true
             });
-            return false;
         }
     });
 }

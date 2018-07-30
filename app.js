@@ -4,13 +4,13 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cors = require('cors');
-const apiRouter = require('./routes/users.route');
+const apiRouter = require('./server/routes/users.route');
 const passport = require('passport');
 
 const app = express();
-require('./models/DB');
+require('./server/models/DB');
 // [SH] Bring in the Passport config after model is defined
-require('./config/passport');
+require('./server/config/passport');
 
 // front-end server
 const originsWhitelist = [

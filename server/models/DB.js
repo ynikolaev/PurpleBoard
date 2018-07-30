@@ -59,3 +59,4 @@ process.on('SIGTERM', function () {
 
 // BRING IN YOUR SCHEMAS & MODELS
 require('./Users');
+require('./Boards');

@@ -39,7 +39,7 @@ import {
         transform: 'scale(1)'
       })),
       state('purple', style({
-        backgroundColor: '#660066',
+        backgroundColor: '#3D1255',
         transform: 'scale(1)'
       })),
       state('red', style({

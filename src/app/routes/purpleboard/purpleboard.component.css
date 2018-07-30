@@ -1,3 +1,33 @@
+.tooltip {
+    opacity: 1 !important;
+}
+
+.tooltip-content {
+    background-color: #563d7c !important;
+    background: #563d7c !important;
+}
+
+.buttons-container, .list-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-container {
+    flex-direction: row;
+}
+
+.list-container {
+    flex-direction: column;
+}
+
+.box {
+    width: 100px;
+    height: 50px;
+    background-color: #9c27b0;
+    margin: 5px;
+}
+
 .messageblock {
     text-align: center;
     width: auto;
@@ -18,9 +48,36 @@
     margin: 1rem;
 }
 
-@media (max-width: 992px) {
-
+.card-body {
+    background-color: #e3d9f9;
+    padding: .1rem .75rem !important;
 }
+
+.card-header a {
+    color: white;
+    cursor: pointer;
+}
+
+.card-header p {
+    color: white;
+}
+
+.card-header {
+    background-color: #3D1255;
+    color: white;
+}
+
+.card-footer {
+    background-color: #e3d9f9;
+    color: black !important;
+    padding: .2rem .25rem !important;
+}
+
+input[type=text], select, textarea {
+    width: 100%;
+}
+
+@media (max-width: 992px) {}
 
 @media (max-width: 768px) {
     .card {

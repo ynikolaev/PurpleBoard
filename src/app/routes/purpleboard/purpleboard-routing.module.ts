@@ -4,10 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { PurpleBoardComponent } from './purpleboard.component';
 import { PurpleBoardDetailComponent } from './purpleboard-detail.component';
 
+import { AuthGuardService } from '../../_services/auth-guard.service';
+
 const boardsRoutes: Routes = [
     {
         path: 'boards',
         component: PurpleBoardComponent,
+        canActivate: [AuthGuardService],
         data: {
             animation: {
                 value: 'purpleboard',
@@ -17,6 +20,7 @@ const boardsRoutes: Routes = [
     {
         path: 'board/:id',
         component: PurpleBoardDetailComponent,
+        canActivate: [AuthGuardService],
         data: {
             animation: {
                 value: 'purpleboard',

@@ -1,6 +1,9 @@
 import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  Router, Resolve, RouterStateSnapshot,
+  ActivatedRouteSnapshot
+} from '@angular/router';
 import { UserService } from '../_services/users.service';
 import { AuthenticationService, TokenPayload } from '../_services/authentication.service';
 
@@ -81,16 +84,19 @@ export class LoginDialogComponent implements OnInit {
   isEmailUnique(control: FormControl) {
     console.log(control.value);
     this.credentials.email = control.value;
-    const q = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve, reject) => {
       setTimeout(() => {
         this.auth.isEmailRegisterd(this.credentials).subscribe((data) => {
-          console.log(data.message);
-          resolve(null);
-        }, () => { resolve({ 'isEmailUnique': true }); });
-      }, 1000);
+          if(data.isEmailUnique === false) {
+            resolve({'isEmailUnique': true});
+          } else {
+            resolve(null);
+          }
+        });
+      }, 100);
+      setTimeout(() => reject(new Error("Error Occured")), 2000); //will be ignored if there is no errors
     });
-    console.log(q);
-    return q;
+    return promise;
   }
 
   createLoginForm() {
@@ -128,7 +134,7 @@ export class LoginDialogComponent implements OnInit {
     if (this.loginForm.valid) {
       this.credentials = this.loginForm.value;
       this.auth.login(this.credentials).subscribe(() => {
-        this.router.navigateByUrl('/purpleboard');
+        this.router.navigateByUrl('/home');
       }, (err) => {
         console.error(err);
       });
