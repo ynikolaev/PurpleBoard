@@ -1,19 +1,88 @@
+/* BASE CSS */
+
+.container-fluid {
+    min-height: 75vh;
+}
+
+/* ICONS */
+.modify-icons {
+    cursor: pointer;
+    font-size: .8rem;
+    margin: .2rem 0;
+    opacity: 1; 
+}
+
+
 .scrolling-wrapper {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
+    min-height: 70vh;
 }
 
-::-webkit-scrollbar {
-    display: none;
+.list-group {
+    max-height: 45vh;
+    overflow: auto;
+    overflow-y: auto;
+}
+
+.list-icon {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.list-row {
+    padding: 0 !important;
+}
+
+.list-row p {
+    margin-top: 0rem;
+}
+
+.list-col {
+    padding: .1rem !important;
+}
+
+#board {
+    user-select: none;
+    white-space: nowrap;
+    margin-bottom: 8px;
+    overflow-x: auto;
+    overflow-y: hidden !important;
+    padding-bottom: 8px;
+    max-height: 75vh;
+}
+
+.input-form {
+    margin: 0 0 5px 0;
+}
+
+.input-form button {
+    min-width: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: .15rem 0 .25rem 0;
+    font-size: 18px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    margin: 0 0 0 5px;
 }
 
 .card {
     display: inline-block;
-    width: 20vw !important;
-    margin: 1rem;
+    width: 272px !important;
+    height: 100% !important;
+    margin: 0 .8rem 1.5rem 0;
+    vertical-align: top;
+    white-space: nowrap;
     flex: 0 0 auto;
     box-shadow: 0 0.125rem 0 0 #d1befa !important;
+    border-radius: .125rem;
+}
+
+.card-title {
+    padding: .5rem 0 .5rem 0;
 }
 
 .card-body {
@@ -24,6 +93,7 @@
 .card-header a {
     color: white;
     cursor: pointer;
+    height: 100% !important;
 }
 
 .card-header p {
@@ -42,5 +112,5 @@
 }
 
 input[type=text], select, textarea {
-    width: 100%;
+    width: 85%;
 }

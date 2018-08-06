@@ -27,5 +27,9 @@ router.get('/getBoard/:id', ctrlContent.getBoard);
 // cards
 router.post('/addCard', ctrlContent.addCard);
 router.get('/getCards/:id', ctrlContent.getCards);
+router.delete('/removeCard/:card_id', ctrlContent.removeCard);
+//items
+router.post('/addItem', ctrlContent.addItem);
+router.delete('/removeItem/:card_id/:item_id', ctrlContent.removeItem);
 
 module.exports = router;

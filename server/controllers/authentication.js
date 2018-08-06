@@ -72,12 +72,13 @@ module.exports.login = function (req, res) {
             token = user.generateJwt();
             res.status(200);
             res.json({
+                "success": true,
                 "token": token
             });
         } else {
             // If user is not found
             console.log("User not found");
-            res.status(401).json(info);
+            res.status(200).json({"success": false});
         }
     })(req, res);
 

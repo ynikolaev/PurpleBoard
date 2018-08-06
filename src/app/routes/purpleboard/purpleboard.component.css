@@ -5,6 +5,12 @@
 .tooltip-content {
     background-color: #563d7c !important;
     background: #563d7c !important;
+    z-index: -1 !important;
+}
+
+.btn.btn-primary-outline {
+    color: white !important;
+    border: 1px solid #3D1255 !important;;
 }
 
 .buttons-container, .list-container {

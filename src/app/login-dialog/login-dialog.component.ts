@@ -13,18 +13,19 @@ import { AuthenticationService, TokenPayload } from '../_services/authentication
   styleUrls: ['./login-dialog.component.css']
 })
 export class LoginDialogComponent implements OnInit {
-  showLogin: boolean;
-  showRegister: boolean;
-  submitted: boolean;
-  loginForm: FormGroup;
-  registerForm: FormGroup;
-  email: FormControl;
-  password: FormControl;
-  firstname: FormControl;
-  lastname: FormControl;
-  submitLink: String;
+  public showLogin: boolean;
+  public showRegister: boolean;
+  public submitted: boolean;
+  public loginForm: FormGroup;
+  public registerForm: FormGroup;
+  public email: FormControl;
+  public password: FormControl;
+  public firstname: FormControl;
+  public lastname: FormControl;
+  public submitLink: String;
+  public errorMessage;
 
-  credentials: TokenPayload = {
+  private credentials: TokenPayload = {
     email: '',
     password: ''
   };
@@ -87,8 +88,8 @@ export class LoginDialogComponent implements OnInit {
     let promise = new Promise((resolve, reject) => {
       setTimeout(() => {
         this.auth.isEmailRegisterd(this.credentials).subscribe((data) => {
-          if(data.isEmailUnique === false) {
-            resolve({'isEmailUnique': true});
+          if (data.isEmailUnique === false) {
+            resolve({ 'isEmailUnique': true });
           } else {
             resolve(null);
           }
@@ -131,16 +132,22 @@ export class LoginDialogComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorMessage = '';
     if (this.loginForm.valid) {
       this.credentials = this.loginForm.value;
-      this.auth.login(this.credentials).subscribe(() => {
-        this.router.navigateByUrl('/home');
+      this.auth.login(this.credentials).subscribe((result) => {
+        if (result.success == true) {
+          this.loginForm.reset();
+          this.showLogin = false;
+          this.router.navigateByUrl('/home');
+        } else {
+          this.loginForm.reset();
+          this.errorMessage = 'Details are invalid!';
+        }
       }, (err) => {
         console.error(err);
       });
       console.log("Login Form Submitted!");
-      this.loginForm.reset();
-      this.showLogin = false;
     } else if (this.registerForm.valid) {
       this.auth.register(this.registerForm.value).subscribe(() => {
         //this.router.navigateByUrl('/profile');

@@ -61,8 +61,9 @@ import {
 export class AppComponent implements OnInit {
   @ViewChild(LoginDialogComponent) loginModal: LoginDialogComponent;
   public router;
-  switchstate;
-  color: String;
+  public switchstate;
+  public color: String;
+  public board_id: any;
 
   constructor(private _loadingBar: SlimLoadingBarService, private _router: Router, private route: ActivatedRoute, private changeDetector: ChangeDetectorRef, public auth: AuthenticationService) {
     this._router.events.subscribe((event: Event) => {

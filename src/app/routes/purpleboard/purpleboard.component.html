@@ -39,11 +39,12 @@
             [ngClass]="(isFirst)?'col-xs-12 col-md-6 col-lg-4':'col-xs-12 col-md-6 col-lg-4'">
             <div class="card-header text-center">
                 <div class="clearfix">
-                    <a class="float-left">Edit</a>
-                    <a (click)="remove(i)" class="tooltip tooltip-sm tooltip-top-left float-right" aria-haspopup="true" role="tooltip">
+                    <button alt="Delete" class="btn btn-primary-outline float-left">
+                        Edit
+                    </button>
+                    <button alt="Delete" class="btn btn-primary-outline float-right" (click)="remove(i)">
                         <i class="fa fa-trash fa-lg"></i>
-                        <span class="tooltip-content">Delete</span>
-                    </a>
+                    </button>
                     <span class="badge badge-purple">{{ i + 1 }}</span>
                     <a [routerLink]="['/board', board._id]">{{ board.title }}</a>
                 </div>
