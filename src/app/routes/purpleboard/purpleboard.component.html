@@ -1,7 +1,14 @@
 <div class="container-fluid padding">
-    <button class="btn btn-primary btn-icon" data-toggle="collapse" href="#boardInput">
-        <i class="fa fa-file fa-lg"></i> Create Board
-    </button>
+    <section class="menu d-flex justify-content-between">
+        <button (click)="openEditor = !openEditor" class="btn btn-primary btn-icon" data-toggle="collapse" href="#boardInput">
+            <i class="fa fa-file fa-lg"></i> Create Board
+        </button>
+        <section class="d-flex justify-content-end" *ngIf="successMessage" @alertHeader>
+            <ngb-alert type="success" [dismissible]="false" (close)="successMessage = null">
+                ({{ dateAlert | date:'shortTime' }}) {{ successMessage }}
+            </ngb-alert>
+        </section>
+    </section>
     <div class="collapse" id="boardInput">
         <div class="row">
             <div class="col-md-5 offset-md-3 col-sm-12 col-xs-12">
@@ -27,45 +34,64 @@
                     </div>
                     <div class="card-footer">
                         <button class="btn btn-primary" type="submit" [disabled]="!boardForm.valid" data-toggle="collapse" href="#boardInput">Add</button>
-                        <button class="btn btn-primary-outline" data-toggle="collapse" href="#boardInput">Cancel</button>
+                        <button (click)="openEditor = !openEditor" class="btn btn-primary-outline" data-toggle="collapse" href="#boardInput">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <div *ngIf="!ifEmpty; else errorBlock" class="row text-left" [@boardAnimation]="boards.length">
-        <div *ngFor="let board of boards; let i = index; first as isFirst" [attr.data-index]="i" [class.selected]="board._id === selectedId"
-            [ngClass]="(isFirst)?'col-xs-12 col-md-6 col-lg-4':'col-xs-12 col-md-6 col-lg-4'">
-            <div class="card-header text-center">
-                <div class="clearfix">
-                    <button alt="Delete" class="btn btn-primary-outline float-left">
-                        Edit
-                    </button>
-                    <button alt="Delete" class="btn btn-primary-outline float-right" (click)="remove(i)">
-                        <i class="fa fa-trash fa-lg"></i>
-                    </button>
-                    <span class="badge badge-purple">{{ i + 1 }}</span>
-                    <a [routerLink]="['/board', board._id]">{{ board.title }}</a>
+    <section *ngIf="!openEditor" id="board" [@boardAnimation]="state">
+        <div *ngIf="!ifEmpty; else errorBlock" class="row text-left" [@boardAnimation]="boards.length">
+            <div *ngFor="let board of boards; let i = index; first as isFirst" [attr.data-index]="i" [class.selected]="board._id === selectedId"
+                [ngClass]="(isFirst)?'col-xs-12 col-md-6 col-lg-4':'col-xs-12 col-md-6 col-lg-4'">
+                <div class="card-header text-center">
+                    <div class="row">
+                        <div class="col-4">
+                            <button alt="Edit" class="btn custom-outline">
+                                Edit
+                            </button>
+                        </div>
+                        <div class="col-4 align-self-center">
+                            <a [routerLink]="['/board', board._id]" class="btn custom-outline text-uppercase">
+                                <span class="badge badge-purple">{{ i + 1 }}</span> {{ (board.title.length>10)? (board.title | slice:0:10)+'..':(board.title)
+                                }}
+                            </a>
+                        </div>
+                        <div class="col-3 align-self-end offset-1">
+                            <button alt="Delete" class="btn custom-outline" (click)="removeBoard(i, board._id, board.title)">
+                                <i class="fa fa-trash fa-lg"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-            <div class="card-body clearfix">
-                <h5 class="card-title">Description:</h5>
-                <p class="card-text">{{ board.description }}</p>
-                <a [routerLink]="['/board', board._id]" class="btn btn-primary float-md-right">Open Board</a>
-            </div>
-            <div class="card-footer text-muted">
-                <div class="clearfix">
-                    <p class="float-left">{{ board.lastUploaded | date:'mediumDate' }}</p>
-                    <p class="float-right">
-                        {{ board.lastUploaded | date:'shortTime' }}
-                    </p>
+                <div class="card-body clearfix">
+                    <h5 class="card-title">Description:</h5>
+                    <p class="card-text text-justify">{{ board.description }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="row justify-content-around">
+                        <p class="justify-content">{{ board.lastUploaded | date:'mediumDate' }}</p>
+                        <p class="justify-content">
+                            <a [routerLink]="['/board', board._id]" class="btn btn-primary">Open Board</a>
+                        </p>
+                        <p class="justify-content">
+                            {{ board.lastUploaded | date:'shortTime' }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <ng-template #errorBlock>
-        <h1 @errorHeader class="text-center">There are No Boards</h1>
+        <section class="row warning justify-content-center" @errorHeader>
+            <ngb-alert [dismissible]="false" class="col-8">
+                <picture class="col-3">
+                    <img src="../../../assets/images/pb-icon-wrn.png" alt="Purple Board Icon">
+                </picture>
+                <h1 class="col-7 offset-1">
+                    No Boards
+                </h1>
+            </ngb-alert>
+        </section>
     </ng-template>
 </div>

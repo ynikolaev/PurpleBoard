@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Metrophobic|Sarala');
 @import "../node_modules/ng2-slim-loading-bar/style.css";
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 /*---Global Section --*/
@@ -6,8 +6,16 @@
 html, body {
     height: 100%;
     width: 100%;
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Metrophobic', sans-serif !important;
     color: #222;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Sarala', sans-serif !important;
+}
+
+p {
+    font-family: 'Metrophobic', sans-serif !important;
 }
 
 .padding {

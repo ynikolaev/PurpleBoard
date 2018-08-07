@@ -1,23 +1,48 @@
 /* BASE CSS */
-
 .container-fluid {
-    min-height: 75vh;
+    height: 75vh;
+}
+
+.menu {
+    height: 10vh;
+    width: 95vw;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+}
+
+.warning {
+    width: 100%;
 }
 
 /* ICONS */
+
 .modify-icons {
     cursor: pointer;
     font-size: .8rem;
     margin: .2rem 0;
-    opacity: 1; 
+    opacity: 1;
 }
 
+/* BOARD CANVAS */
+
+#board {
+    user-select: none;
+    white-space: nowrap;
+    margin-bottom: 8px;
+    overflow-x: auto;
+    overflow-y: hidden !important;
+    padding-bottom: 8px;
+    max-height: 75vh;
+}
 
 .scrolling-wrapper {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    min-height: 70vh;
+    min-height: 45vh;
 }
 
 .list-group {
@@ -43,31 +68,7 @@
     padding: .1rem !important;
 }
 
-#board {
-    user-select: none;
-    white-space: nowrap;
-    margin-bottom: 8px;
-    overflow-x: auto;
-    overflow-y: hidden !important;
-    padding-bottom: 8px;
-    max-height: 75vh;
-}
-
-.input-form {
-    margin: 0 0 5px 0;
-}
-
-.input-form button {
-    min-width: 10px;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: .15rem 0 .25rem 0;
-    font-size: 18px;
-    line-height: 1.428571429;
-    border-radius: 15px;
-    margin: 0 0 0 5px;
-}
+/* CARDS */
 
 .card {
     display: inline-block;
@@ -111,6 +112,29 @@
     padding: .2rem .25rem !important;
 }
 
+/* INPUTS */
+
+.input-form {
+    margin: 0 0 5px 0;
+}
+
 input[type=text], select, textarea {
     width: 85%;
+}
+
+/* BUTTONS */
+.input-form button {
+    min-width: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: .15rem 0 .25rem 0;
+    font-size: 18px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    margin: 0 0 0 5px;
+}
+
+.back {
+    width: 20%;
 }

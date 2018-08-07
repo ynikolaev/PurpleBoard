@@ -2,7 +2,7 @@ import { NgModule }       from '@angular/core';
 import { CommonModule }   from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PurpleBoardDetailComponent }    from './purpleboard-detail.component';
 import { PurpleBoardComponent }  from './purpleboard.component';
  
@@ -15,6 +15,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
   imports: [
     CommonModule,
     FormsModule,
+    NgbModule.forRoot(),
     ReactiveFormsModule,
     PurpleboardRoutingModule,
     BrowserAnimationsModule,

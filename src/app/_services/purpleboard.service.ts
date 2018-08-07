@@ -81,6 +81,16 @@ export class PurpleboardService {
             .catch(this.handleError);
     }
 
+    public removeBoard(board_id): Observable<any[]> {
+        let myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        let options = new RequestOptions({ headers: myHeaders });
+        let URI = `${apiUrl}/removeBoard/${board_id}`;
+        return this.http.delete(URI, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     public addCard(card: CardDetails): Observable<any> {
         //return this.request('post', 'addBoard', board);
         let headers = new Headers;

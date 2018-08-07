@@ -1,17 +1,16 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
+<div class="container-fluid padding">
+    <section class="menu d-flex justify-content-between">
+        <section class="d-flex justify-content-start">
             <button (click)="openEditor = !openEditor" class="btn btn-primary btn-icon" data-toggle="collapse" href="#cardInput">
                 <i class="fa fa-credit-card fa-lg"></i> Create Card
             </button>
-        </div>
-        <div class="col-4">
-            <h2 class="text-uppercase text-center">{{ boards.title }} Board {{ hover }}</h2>
-        </div>
-        <div class="col-4">
-            <button type="button" class="btn btn-primary float-right" (click)="gotoBoards()">Back</button>
-        </div>
-    </div>
+        </section>
+        <section class="d-flex justify-content-end" *ngIf="successMessage" @alertHeader>
+            <ngb-alert [type]="alertType" [dismissible]="false" (close)="successMessage = null">
+                ({{ dateAlert | date:'shortTime' }}) {{ successMessage }}
+            </ngb-alert>
+        </section>
+    </section>
     <div class="collapse clearfix" id="cardInput">
         <div class="row">
             <div class="col-md-5 offset-md-3 col-sm-12 col-xs-12">
@@ -59,7 +58,7 @@
                         <a class="float-left modify-icons">
                             <i class="far fa-edit"></i>
                         </a>
-                        <a (click)="removeCard(i, card._id)" class="float-right modify-icons">
+                        <a (click)="removeCard(i, card._id, card.name)" class="float-right modify-icons">
                             <i class="far fa-trash-alt"></i>
                         </a>
                         <h5 class="card-title text-center">{{ card.name }}</h5>
@@ -99,8 +98,18 @@
         </div>
     </section>
 </div>
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary back" (click)="gotoBoards()">Back</button>
+</div>
 <ng-template #errorBlock>
-    <section>
-        <h1 @errorHeader class="text-center">There are No Cards</h1>
+    <section class="row warning justify-content-center" @errorHeader>
+        <ngb-alert [dismissible]="false" class="col-8">
+            <picture class="col-3">
+                <img src="../../../assets/images/pb-icon-wrn.png" alt="Purple Board Icon">
+            </picture>
+            <h1 class="col-7 offset-1">
+                No Cards
+            </h1>
+        </ngb-alert>
     </section>
 </ng-template>

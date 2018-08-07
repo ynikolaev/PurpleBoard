@@ -61,6 +61,24 @@ module.exports.getBoard = function (req, res) {
     });
 };
 
+module.exports.removeBoard = function (req, res) {
+    let board_id = new mongoose.Types.ObjectId(req.params.board_id);
+    //console.log("Card id is: " + req.params.card_id);
+    Board.deleteOne({ _id: board_id }, function (err, card) {
+        if (err) {
+            return res.status(400).json({ success: false, message: `Failed to delete board. Error: ${err}` });
+        } else {
+            Card.deleteMany({ board_id: board_id }, function (err, card) {
+                if (err) {
+                    return res.status(400).json({ success: false, message: `Failed to delete card. Error: ${err}` });
+                } else {
+                    return res.status(200).json({ success: true, message: `Board was deleted successfully` });
+                }
+            });
+        }
+    });
+};
+
 module.exports.updateTime = function (req, res) {
     let id = req.body._id;
     let newvalues = { lastUploaded: req.body.time };
