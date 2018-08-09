@@ -7,7 +7,7 @@
         </section>
         <section class="d-flex justify-content-end" *ngIf="successMessage" @alertHeader>
             <ngb-alert [type]="alertType" [dismissible]="false" (close)="successMessage = null">
-                ({{ dateAlert | date:'shortTime' }}) {{ successMessage }}
+                <span> {{ successMessage }} ({{ dateAlert | date:'shortTime' }}) </span>
             </ngb-alert>
         </section>
     </section>
@@ -54,25 +54,63 @@
         <div *ngIf="!ifEmpty; else errorBlock" class="scrolling-wrapper" [@listAnimation]="cards.length">
             <div *ngFor="let card of cards; let i = index; first as isFirst" [attr.data-index]="i" class="card">
                 <section>
-                    <div class="card-body clearfix">
-                        <a class="float-left modify-icons">
+                    <div class="card-header light-header" (mouseover)="card.hover=true" (mouseleave)="card.hover=false; card.editable=false; ifCardEdit=false">
+                        <!-- Icon to accept changes -->
+                        <div *ngIf="card.editable==true" (click)="editCard(i, card._id, card.name); card.editable=false; ifCardEdit=false"
+                            class="flex-grow-1 modify-icons">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <!-- Icon to enter edit mode -->
+                        <a *ngIf="card.editable!=true" (click)="editCardState(card.name, card._id); card.editable=ifCardEdit"
+                            class="flex-grow-1 modify-icons">
                             <i class="far fa-edit"></i>
                         </a>
-                        <a (click)="removeCard(i, card._id, card.name)" class="float-right modify-icons">
+                        <!-- Card title -->
+                        <h5 *ngIf="card.editable!=true" class="flex-grow-1 card-title text-center">{{ card.name }}</h5>
+                        <!-- Card edit form -->
+                        <form *ngIf="card.editable==true" [formGroup]="editCardForm" class="flex-grow-1 card-title text-center">
+                            <input class="text-center" type="text" name="name" formControlName="name" autocomplete="off">
+                        </form>
+                        <!-- Icon to delete card -->
+                        <a *ngIf="card.editable!=true" (click)="removeCard(i, card._id, card.name)" [ngClass]="(card.hover==true) ?'visible':'hidden'"
+                            class="flex-grow-1 text-right modify-icons">
                             <i class="far fa-trash-alt"></i>
                         </a>
-                        <h5 class="card-title text-center">{{ card.name }}</h5>
+                        <!-- Icon to discard changes -->
+                        <div *ngIf="card.editable==true" (click)="card.editable=false; ifCardEdit=false" class="flex-grow-1 text-right modify-icons">
+                            <i class="fas fa-ban"></i>
+                        </div>
                     </div>
                     <ul class="list-group list-group-flush">
                         <div [@itemAnimation]="card.items && card.items.length">
-                            <li *ngFor="let item of card.items; let x = index;" class="list-group-item" (mouseover)="item.hover=true" (mouseleave)="item.hover=false">
+                            <li *ngFor="let item of card.items; let x = index;" class="list-group-item" (mouseover)="item.hover=true" (mouseleave)="item.hover=false; item.editable=false; ifItemEdit=false">
                                 <div class="row list-row">
-                                    <div class="col-11 list-col">
-                                        {{ item.text }}
+                                    <div [ngClass]="(item.hover==true) ?'col-10 list-col':'col-12 list-col'">
+                                        <!-- Item text field -->
+                                        <p *ngIf="item.editable!=true"> {{ (item.text.length>100)? (item.text | slice:0:100)+'..':(item.text) }}
+                                        </p>
+                                        <!-- Input if editable mode is on -->
+                                        <form *ngIf="item.editable==true" [formGroup]="editItemForm">
+                                            <input type="text" name="text" formControlName="text" autocomplete="off">
+                                        </form>
                                     </div>
-                                    <div (click)="removeItem(x, i, card._id, item._id)" *ngIf="item.hover" [ngStyle]="{'opacity':item.hover === true ? '1' : '0' }"
+                                    <!-- Icon to accept changes -->
+                                    <div *ngIf="item.editable==true" (click)="editItem(x, i, card._id, item._id, item.text); item.editable=false; ifItemEdit=false"
                                         class="col-1 list-col list-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <!-- Icon to enter edit mode -->
+                                    <div *ngIf="item.hover && (!item.editable || item.editable==false)" (click)="editItemState(item.text,item._id); item.editable=ifItemEdit"
+                                        class="col-1 list-col list-icon">
+                                        <i class="fas fa-wrench"></i>
+                                    </div>
+                                    <!-- Icon to delete item -->
+                                    <div *ngIf="item.hover && (!item.editable || item.editable==false)" (click)="removeItem(x, i, card._id, item._id)" class="col-1 list-col list-icon">
                                         <i class="fas fa-times-circle"></i>
+                                    </div>
+                                    <!-- Icon to discard changes -->
+                                    <div *ngIf="item.editable==true" (click)="item.editable=false; ifItemEdit=false" class="col-1 list-col list-icon">
+                                        <i class="fas fa-ban"></i>
                                     </div>
                                 </div>
                             </li>

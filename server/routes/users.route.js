@@ -22,15 +22,18 @@ router.post('/isEmailRegisterd', ctrlAuth.isEmailRegisterd);
 // boards
 router.post('/addBoard', ctrlContent.addBoard);
 router.put('/updateTime', ctrlContent.updateTime);
+router.put('/updateBoard', ctrlContent.updateBoard);
 router.get('/getBoards/:id', ctrlContent.getBoards);
 router.get('/getBoard/:id', ctrlContent.getBoard);
 router.delete('/removeBoard/:board_id', ctrlContent.removeBoard);
 // cards
 router.post('/addCard', ctrlContent.addCard);
+router.put('/updateCard', ctrlContent.updateCard);
 router.get('/getCards/:id', ctrlContent.getCards);
 router.delete('/removeCard/:card_id', ctrlContent.removeCard);
 //items
 router.post('/addItem', ctrlContent.addItem);
+router.put('/updateItem', ctrlContent.updateItem);
 router.delete('/removeItem/:card_id/:item_id', ctrlContent.removeItem);
 
 module.exports = router;

@@ -101,6 +101,8 @@ export class PurpleBoardDetailComponent implements OnInit {
     public board_id: String;
     public ifEmpty: Boolean = true;
     public openEditor: Boolean = false;
+    public ifItemEdit: Boolean = false;
+    public ifCardEdit: Boolean = false;
     public state = 'inactive';
     public today: Number = Date.now();
     //Forms
@@ -114,6 +116,12 @@ export class PurpleBoardDetailComponent implements OnInit {
         label: [''],
         assigned_user: [''],
         card_id: ['']
+    });
+    private editItemForm = this.fb.group({
+        text: ['', Validators.required]
+    });
+    private editCardForm = this.fb.group({
+        name: ['', Validators.required]
     });
     //Interfaces
     private boardInfo: BoardDetails = {
@@ -140,7 +148,9 @@ export class PurpleBoardDetailComponent implements OnInit {
         description: '',
         label: '',
         board_id: '',
-        items: [{}]
+        items: [{
+            editable: false
+        }]
     };
 
     constructor(
@@ -148,7 +158,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         private router: Router,
         private boardService: PurpleboardService,
         private fb: FormBuilder
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         window.scrollTo(0, 0);
@@ -166,15 +176,23 @@ export class PurpleBoardDetailComponent implements OnInit {
             this.boardInfo._id = String(params['id']);
             this.board_id = String(params['id']);
         });
-        this.boardService.getBoard(String(this.board_id)).subscribe((boards) => {
+        this.getBoard(this.board_id);
+    }
+
+    public getBoard(board_id: String) {
+        this.boardService.getBoard(String(board_id)).subscribe((boards) => {
             this.boards = boards["boards"];
             //console.log(this.boards);
+            this.getCards(board_id);
         }, (err) => {
             console.error(err);
         });
-        this.boardService.getCards(String(this.board_id)).subscribe((cards) => {
+    }
+
+    public getCards(board_id: String) {
+        this.boardService.getCards(String(board_id)).subscribe((cards) => {
             this.cards = cards["cards"];
-            this.checkCardsExist();
+            setTimeout(this.checkCardsExist(), 2000);
         }, (err) => {
             console.error(err);
         });
@@ -190,7 +208,7 @@ export class PurpleBoardDetailComponent implements OnInit {
                     //console.log(cards.length);
                     this.cardInfo = cards["cards"];
                     this.cards.unshift(new Card(this.cardInfo._id, this.cardInfo.name, this.cardInfo.description, this.cardInfo.label, this.cardInfo.board_id, this.cardInfo.items));
-                    this.changeSuccessMessage("Card was added successfully!",`success`);
+                    this.changeSuccessMessage("Card was added successfully!", `success`);
                 }
             }, (err) => {
                 console.error(err);
@@ -201,7 +219,7 @@ export class PurpleBoardDetailComponent implements OnInit {
             // put away no cards warning
             this.ifEmpty = false;
         } else {
-            this.changeSuccessMessage(`Form is invalid!`,`danger`);
+            this.changeSuccessMessage(`Form is invalid!`, `danger`);
         }
     }
 
@@ -214,18 +232,21 @@ export class PurpleBoardDetailComponent implements OnInit {
             this.itemInfo.card_id = card._id;
             console.log(this.itemInfo);
             this.boardService.addItem(this.itemInfo).subscribe((items) => {
-                if (items["success"] == true) {
+                if (items["success"] === true) {
+                    //alert(JSON.stringify(items["item"]));
+                    this.itemInfo = items["item"];
                     console.log("Added");
-                    this.cards[card_index]["items"].unshift(new Item(this.itemInfo._id, this.itemInfo.text, this.itemInfo.label, this.itemInfo.assigned_user, this.itemInfo.card_id));
+                    this.cards[card_index]["items"].unshift(new Item(this.itemInfo._id, this.itemInfo.text, this.itemInfo.label, this.itemInfo.assigned_user, this.itemInfo.card_id, false));
                     this.itemForm.reset();
                     this.updateBoardTime();
-                    this.changeSuccessMessage("Item was added successfully!",`success`);
+                    this.changeSuccessMessage("Item was added successfully!", `success`);
                 }
             }, (err) => {
                 console.error(err);
+                this.changeSuccessMessage("Item was not added!", `danger`);
             });
         } else {
-            this.changeSuccessMessage(`Form is invalid!`,`danger`);
+            this.changeSuccessMessage(`Form is invalid!`, `danger`);
         }
     }
 
@@ -241,15 +262,62 @@ export class PurpleBoardDetailComponent implements OnInit {
         }
     }
 
+    editItem(itemIndex, cardIndex, cardId, itemId, text) {
+        //alert(text);
+        if (this.editItemForm.valid) {
+            this.itemInfo = this.editItemForm.value;
+            this.itemInfo.card_id = cardId;
+            if (this.itemInfo.text === text) {
+                this.changeSuccessMessage(`You haven't changed the text value!`, `warning`);
+            } else {
+                this.boardService.updateItem(this.itemInfo, itemId).subscribe((result) => {
+                    if (result["success"] === true) {
+                        this.cards[cardIndex]["items"][itemIndex]["text"] = String(this.itemInfo.text);
+                        this.changeSuccessMessage(`Item was changed successfully!`, `success`);
+                        this.updateBoardTime();
+                    } else {
+                        this.changeSuccessMessage(`Item wasn't changed!`, `warning`);
+                    }
+                })
+            }
+        } else {
+            this.changeSuccessMessage(`You must enter value to submit changes!`, `danger`);
+        }
+    }
+
+    editCard(cardIndex, cardId, name) {
+        //alert(text);
+        if (this.editCardForm.valid) {
+            this.cardInfo = this.editCardForm.value;
+            this.cardInfo._id = cardId;
+            if (this.cardInfo.name === name) {
+                this.changeSuccessMessage(`You haven't changed card title value!`, `warning`);
+            } else {
+                this.boardService.updateCard(this.cardInfo, cardId).subscribe((result) => {
+                    if (result["success"] === true) {
+                        this.cards[cardIndex]["name"] = String(this.cardInfo.name);
+                        this.changeSuccessMessage(`Card title has been changed successfully!`, `success`);
+                        this.updateBoardTime();
+                    } else {
+                        this.changeSuccessMessage(`Card title has not been changed!`, `danger`);
+                    }
+                });
+            }
+        } else {
+            this.changeSuccessMessage(`You must enter value to submit changes!`, `danger`);
+        }
+    }
+
     removeItem(itemIndex, cardIndex, cardId, itemId) {
         //alert("Card Index: " + cardIndex + " Item Index: " + itemIndex + " Card Id: " + cardId + " Item Id: " + itemId);
         this.cards[cardIndex]["items"].splice(itemIndex, 1);
         this.boardService.removeItem(cardId, itemId).subscribe((result) => {
             //alert(this.cards[cardIndex]["items"]);
             this.updateBoardTime();
-            this.changeSuccessMessage(`Item was deleted successfully!`,`success`);
+            this.changeSuccessMessage(`Item was deleted successfully!`, `success`);
         }, (err) => {
             console.error(err);
+            this.changeSuccessMessage(`Item wasn't deleted!`, `danger`);
         });
     }
 
@@ -257,9 +325,13 @@ export class PurpleBoardDetailComponent implements OnInit {
         //alert("Card Index: " + cardIndex + " Card Id: " + cardId);
         this.cards.splice(cardIndex, 1);
         this.boardService.removeCard(cardId).subscribe((result) => {
-            this.updateBoardTime();
-            this.checkCardsExist();
-            this.changeSuccessMessage(`Card "${name}" was deleted successfully!`,`success`);
+            if (result["success"] === true) {
+                this.updateBoardTime();
+                this.checkCardsExist();
+                this.changeSuccessMessage(`Card "${name}" was deleted successfully!`, `success`);
+            } else {
+                this.changeSuccessMessage(`Card "${name}" wasn't deleted!`, `danger`);
+            }
         }, (err) => {
             console.error(err);
         });
@@ -279,7 +351,7 @@ export class PurpleBoardDetailComponent implements OnInit {
     checkCardsExist() {
         if (!this.cards || this.cards.length == 0) {
             this.ifEmpty = true;
-            this.changeSuccessMessage("No Cards found in the Database",`warning`);
+            this.changeSuccessMessage("No Cards found in the Database", `warning`);
         } else {
             this.ifEmpty = false;
         }
@@ -293,6 +365,18 @@ export class PurpleBoardDetailComponent implements OnInit {
 
     toggleState() {
         this.state = this.state === 'active' ? 'inactive' : 'active';
+    }
+
+    editItemState(text, id) {
+        //alert(id);
+        this.editItemForm.setValue({ text: text });
+        this.ifItemEdit = this.ifItemEdit === false ? true : false;
+    }
+
+    editCardState(text, id) {
+        //alert(id);
+        this.editCardForm.setValue({ name: text });
+        this.ifCardEdit = this.ifCardEdit === false ? true : false;
     }
 
     gotoBoards() {

@@ -71,6 +71,7 @@ import { debounceTime } from 'rxjs/operators';
 export class PurpleBoardComponent implements OnInit {
     //Alert
     private _success = new Subject<string>();
+    public alertType: String = "success";
     staticAlertClosed = false;
     successMessage: string;
     dateAlert = Date.now();
@@ -79,9 +80,14 @@ export class PurpleBoardComponent implements OnInit {
     public openEditor: Boolean = false;
     public ifEmpty: Boolean = true;
     //Forms
+    public ifBoardEdit: Boolean = false;
     private boardForm = this.fb.group({
-        title: ['', Validators.required],
-        description: ['', Validators.required]
+        title: ['', [Validators.required, Validators.maxLength(20)]],
+        description: ['', [Validators.required, Validators.maxLength(180)]]
+    });
+    private editBoardForm = this.fb.group({
+        title: ['', [Validators.required, Validators.maxLength(20)]],
+        description: ['', [Validators.required, Validators.maxLength(180)]]
     });
     //Handlers
     public boards: BoardDetails[] = [];
@@ -133,7 +139,7 @@ export class PurpleBoardComponent implements OnInit {
                     console.log("success");
                     this.boardInfo = boards["boards"];
                     this.boards.unshift(new Board(this.boardInfo._id, this.boardInfo.title, this.boardInfo.description, this.boardInfo.lastUploaded, this.boardInfo.owner_id));
-                    this.changeSuccessMessage(`Board "${this.boardInfo.title}" was added successfully!`);
+                    this.changeSuccessMessage(`Board "${this.boardInfo.title}" was added successfully!`, `success`);
                 }
             }, (err) => {
                 console.error(err);
@@ -141,22 +147,43 @@ export class PurpleBoardComponent implements OnInit {
             console.log("New Board Added!");
             this.boardForm.reset();
             this.ifEmpty = false;
+        } else {
+            this.changeSuccessMessage(`Data is invalid. Title no more than 20char. Description no more than 180char`, `danger`);
         }
     }
 
-    //Set alet message
-    public changeSuccessMessage(message) {
-        this._success.next(`${message}`);
+    editBoard(boardIndex, boardId, title, description) {
+        //alert(title);
+        alert(this.editBoardForm.valid);
+        if (this.editBoardForm.valid) {
+            this.boardInfo = this.editBoardForm.value;
+            this.boardInfo._id = boardId;
+            if (this.boardInfo.title === title && this.boardInfo.description === description) {
+                this.changeSuccessMessage(`You haven't changed the text value!`, `warning`);
+            } else {
+                this.boardService.updateBoard(this.boardInfo, boardId).subscribe((result) => {
+                    if (result["success"] === true) {
+                        this.boards[boardIndex]["title"] = String(this.boardInfo.title);
+                        this.boards[boardIndex]["description"] = String(this.boardInfo.description);
+                        this.changeSuccessMessage(`Item was changed successfully!`, `success`);
+                    } else {
+                        this.changeSuccessMessage(`Item wasn't changed!`, `warning`);
+                    }
+                })
+            }
+        } else {
+            this.changeSuccessMessage(`You must enter value to submit changes!`, `danger`);
+        }
     }
 
     removeBoard(index, id, title) {
         this.boardService.removeBoard(id).subscribe((result) => {
-            if (result["success"]=true) {
+            if (result["success"] = true) {
                 this.boards.splice(index, 1);
-                this.changeSuccessMessage(`Board "${title}" was deleted successfully!`);
+                this.changeSuccessMessage(`Board "${title}" was deleted successfully!`, `success`);
                 this.checkBoardsExist();
             } else {
-                this.changeSuccessMessage(`Board "${title}" was not deleted!`);
+                this.changeSuccessMessage(`Board "${title}" was not deleted!`, `danger`);
             }
         }, (err) => {
             console.error(err);
@@ -169,6 +196,18 @@ export class PurpleBoardComponent implements OnInit {
         } else {
             this.ifEmpty = false;
         }
+    }
+
+    editBoardState(text, id, description) {
+        //alert(id);
+        this.editBoardForm.setValue({ title: text, description: description });
+        this.ifBoardEdit = this.ifBoardEdit === false ? true : false;
+    }
+
+    //Set alet message
+    public changeSuccessMessage(message, type) {
+        this.alertType = type;
+        this._success.next(`${message}`);
     }
 
     toggleState() {

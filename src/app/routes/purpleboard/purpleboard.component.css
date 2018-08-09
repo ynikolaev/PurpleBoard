@@ -4,6 +4,10 @@
     max-width: 90vw;
 }
 
+span {
+    font-size: .6rem;
+}
+
 .menu {
     height: 50px;
     width: 90vw;
@@ -19,6 +23,7 @@ img {
 }
 
 /* BUTTONS */
+
 .btn.custom-outline {
     color: white !important;
     border: 1px solid #3D1255 !important;
@@ -33,7 +38,8 @@ img {
     border: 1px solid white !important;
 }
 
-.buttons-container, .list-container {
+.buttons-container,
+.list-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,6 +50,7 @@ img {
 }
 
 /* CONTAINER */
+
 .list-container {
     flex-direction: column;
 }
@@ -91,6 +98,11 @@ img {
     cursor: pointer;
 }
 
+.card-header input {
+    color: white;
+    width: 80%;
+}
+
 .card-header p {
     color: white;
 }
@@ -101,8 +113,10 @@ img {
     width: 100%;
 }
 
-.card-header .row [class*="col-"] {
-    padding: 0rem !important;
+.card-header.board-header {
+    width: 100%;
+    display: flex;
+    padding: .2rem .5rem;
 }
 
 .card-footer {
@@ -111,8 +125,14 @@ img {
     padding: .2rem .25rem .5rem !important;
 }
 
-input[type=text], select, textarea {
+input[type=text],
+select,
+textarea {
     width: 100%;
+}
+
+textarea {
+    resize: none;
 }
 
 @media (max-width: 992px) {}

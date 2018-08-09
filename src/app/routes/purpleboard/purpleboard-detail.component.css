@@ -8,6 +8,10 @@
     width: 95vw;
 }
 
+span {
+    font-size: .6rem;
+}
+
 img {
     width: 200px;
     height: 200px;
@@ -49,11 +53,27 @@ img {
     max-height: 45vh;
     overflow: auto;
     overflow-y: auto;
+    white-space: pre-line;
+}
+
+.list-group li {
+    border: 1px solid #D7D7D7;
+    border-radius: 10px;
+    margin: 5px 5px;
 }
 
 .list-icon {
     opacity: 1;
     cursor: pointer;
+    padding: 0 5px;
+}
+
+.fa-times-circle, .fa-ban, .fa-wrench, .fa-check {
+    color: #553f7a;
+}
+
+.fa-times-circle:hover, .fa-ban:hover, .fa-wrench:hover, .fa-check:hover {
+    color: #d1befa;
 }
 
 .list-row {
@@ -66,13 +86,14 @@ img {
 
 .list-col {
     padding: .1rem !important;
+    display: inline !important;
 }
 
 /* CARDS */
 
 .card {
     display: inline-block;
-    width: 272px !important;
+    width: 292px !important;
     height: 100% !important;
     margin: 0 .8rem 1.5rem 0;
     vertical-align: top;
@@ -84,6 +105,7 @@ img {
 
 .card-title {
     padding: .5rem 0 .5rem 0;
+    position: static;
 }
 
 .card-body {
@@ -104,6 +126,30 @@ img {
 .card-header {
     background-color: #3D1255;
     color: white;
+}
+
+.card-header.light-header {
+    background-color: #e3d9f9 !important;
+    color: black !important;
+    width: 100%;
+    display: flex;
+    padding: .2rem .5rem;
+}
+
+.card-header.light-header a {
+    color: #3D1255 !important;
+}
+
+.card-header.light-header a:hover {
+    color: #9775AA !important;
+}
+
+.card-header:first-child {
+    border-radius: 0 0 0 0;
+}
+
+.list-group-item:first-child {
+    border-top: 1px solid #D7D7D7 !important;
 }
 
 .card-footer {
@@ -137,4 +183,6 @@ input[type=text], select, textarea {
 
 .back {
     width: 20%;
+    margin-top: 40px;
+    font-size: .7rem;
 }

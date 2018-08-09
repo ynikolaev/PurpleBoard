@@ -18,7 +18,7 @@ export class Card {
 }
 
 export class Item {
-    constructor(public _id: String, public text: String, public label: String, public assigned_user: String, public card_id: String) { }
+    constructor(public _id: String, public text: String, public label: String, public assigned_user: String, public card_id: String, public editable: Boolean) { }
 }
 
 const apiUrl = "http://localhost:3000/api"; //backend server
@@ -43,6 +43,30 @@ export class PurpleboardService {
         let URI = `${apiUrl}/addBoard`;
         headers.append('Content-Type', 'application/json');
         return this.http.post(URI, board, { headers: headers })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    public updateBoard(board: BoardDetails, boardId): Observable<any> {
+        //return this.request('post', 'addBoard', board);
+        let headers = new Headers;
+        let URI = `${apiUrl}/updateBoard`;
+        let params = {
+            boardInfo: board,
+            board_id: boardId
+        }
+        headers.append('Content-Type', 'application/json');
+        return this.http.put(URI, params, { headers: headers })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    public removeBoard(board_id): Observable<any[]> {
+        let myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        let options = new RequestOptions({ headers: myHeaders });
+        let URI = `${apiUrl}/removeBoard/${board_id}`;
+        return this.http.delete(URI, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -81,22 +105,26 @@ export class PurpleboardService {
             .catch(this.handleError);
     }
 
-    public removeBoard(board_id): Observable<any[]> {
-        let myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
-        let options = new RequestOptions({ headers: myHeaders });
-        let URI = `${apiUrl}/removeBoard/${board_id}`;
-        return this.http.delete(URI, options)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
     public addCard(card: CardDetails): Observable<any> {
         //return this.request('post', 'addBoard', board);
         let headers = new Headers;
         let URI = `${apiUrl}/addCard`;
         headers.append('Content-Type', 'application/json');
         return this.http.post(URI, card, { headers: headers })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    public updateCard(card: CardDetails, cardId): Observable<any> {
+        //return this.request('post', 'addBoard', board);
+        let headers = new Headers;
+        let URI = `${apiUrl}/updateCard`;
+        let params = {
+            cardInfo: card,
+            card_id: cardId
+        }
+        headers.append('Content-Type', 'application/json');
+        return this.http.put(URI, params, { headers: headers })
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -117,6 +145,20 @@ export class PurpleboardService {
         let URI = `${apiUrl}/addItem`;
         headers.append('Content-Type', 'application/json');
         return this.http.post(URI, item, { headers: headers })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    public updateItem(item: ItemDetails, itemId): Observable<any> {
+        //return this.request('post', 'addBoard', board);
+        let headers = new Headers;
+        let URI = `${apiUrl}/updateItem`;
+        let params = {
+            itemInfo: item,
+            item_id: itemId
+        }
+        headers.append('Content-Type', 'application/json');
+        return this.http.put(URI, params, { headers: headers })
             .map(this.extractData)
             .catch(this.handleError);
     }

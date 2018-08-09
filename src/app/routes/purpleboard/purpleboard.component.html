@@ -3,16 +3,16 @@
         <button (click)="openEditor = !openEditor" class="btn btn-primary btn-icon" data-toggle="collapse" href="#boardInput">
             <i class="fa fa-file fa-lg"></i> Create Board
         </button>
-        <section class="d-flex justify-content-end" *ngIf="successMessage" @alertHeader>
-            <ngb-alert type="success" [dismissible]="false" (close)="successMessage = null">
-                ({{ dateAlert | date:'shortTime' }}) {{ successMessage }}
+        <section class="d-flex justify-content-end alert-section" *ngIf="successMessage" @alertHeader>
+            <ngb-alert [type]="alertType" [dismissible]="false" (close)="successMessage = null">
+                <span> {{ successMessage }} ({{ dateAlert | date:'shortTime' }}) </span>
             </ngb-alert>
         </section>
     </section>
     <div class="collapse" id="boardInput">
         <div class="row">
             <div class="col-md-5 offset-md-3 col-sm-12 col-xs-12">
-                <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
+                <form novalidate [formGroup]="boardForm" (ngSubmit)="onSubmit()">
                     <div class="card-header">
                         <strong>Add Board</strong>
                     </div>
@@ -43,31 +43,55 @@
     <section *ngIf="!openEditor" id="board" [@boardAnimation]="state">
         <div *ngIf="!ifEmpty; else errorBlock" class="row text-left" [@boardAnimation]="boards.length">
             <div *ngFor="let board of boards; let i = index; first as isFirst" [attr.data-index]="i" [class.selected]="board._id === selectedId"
-                [ngClass]="(isFirst)?'col-xs-12 col-md-6 col-lg-4':'col-xs-12 col-md-6 col-lg-4'">
-                <div class="card-header text-center">
-                    <div class="row">
-                        <div class="col-4">
-                            <button alt="Edit" class="btn custom-outline">
-                                Edit
-                            </button>
-                        </div>
-                        <div class="col-4 align-self-center">
-                            <a [routerLink]="['/board', board._id]" class="btn custom-outline text-uppercase">
-                                <span class="badge badge-purple">{{ i + 1 }}</span> {{ (board.title.length>10)? (board.title | slice:0:10)+'..':(board.title)
-                                }}
-                            </a>
-                        </div>
-                        <div class="col-3 align-self-end offset-1">
-                            <button alt="Delete" class="btn custom-outline" (click)="removeBoard(i, board._id, board.title)">
-                                <i class="fa fa-trash fa-lg"></i>
-                            </button>
-                        </div>
+                [ngClass]="(isFirst)?'col-xs-12 col-md-6 col-lg-4':'col-xs-12 col-md-6 col-lg-4'" (mouseover)="board.hover=true"
+                (mouseleave)="board.hover=false; board.editable=false; ifBoardEdit=false">
+                <div class="card-header board-header text-center">
+                    <!-- Icon to accept changes -->
+                    <div *ngIf="board.editable==true" (click)="editBoard(i, board._id, board.title, board.description); board.editable=false; ifBoardEdit=false"
+                        class="flex-grow-1">
+                        <button alt="Done" class="btn custom-outline">
+                            Done
+                        </button>
+                    </div>
+                    <!-- Icon enable edit mode -->
+                    <div *ngIf="board.editable!=true" class="flex-grow-1" (click)="editBoardState(board.title, board._id, board.description); board.editable=ifBoardEdit">
+                        <button alt="Edit" class="btn custom-outline">
+                            Edit
+                        </button>
+                    </div>
+                    <!-- Board title -->
+                    <div *ngIf="board.editable!=true" class="flex-grow-3">
+                        <a [routerLink]="['/board', board._id]" class="btn custom-outline text-uppercase">
+                            <!-- Slice title if more than 10 char long -->
+                            <span class="badge badge-purple mat-badge-large">{{ i + 1 }}</span> {{ (board.title.length>10)? (board.title | slice:0:10)+'..':(board.title)
+                            }}
+                        </a>
+                    </div>
+                    <!-- Board edit form -->
+                    <form *ngIf="board.editable==true" [formGroup]="editBoardForm" class="flex-grow-3 text-center">
+                        <input class="text-center" type="text" name="title" formControlName="title" autocomplete="off">
+                    </form>
+                    <!-- Icon to delete board -->
+                    <div *ngIf="board.editable!=true" class="flex-grow-1 text-right">
+                        <button alt="Delete" class="btn custom-outline" (click)="removeBoard(i, board._id, board.title)">
+                            <i class="far fa-trash-alt fa-lg"></i>
+                        </button>
+                    </div>
+                    <!-- Icon to discard changes -->
+                    <div *ngIf="board.editable==true" class="flex-grow-1 text-right modify-icons">
+                        <button alt="Discard" class="btn custom-outline" (click)="board.editable=false; ifBoardEdit=false">
+                            <i class="fas fa-ban fa-lg"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="card-body clearfix">
+                <div *ngIf="board.editable!=true" class="card-body clearfix">
                     <h5 class="card-title">Description:</h5>
                     <p class="card-text text-justify">{{ board.description }}</p>
                 </div>
+                <form *ngIf="board.editable==true" [formGroup]="editBoardForm" class="card-body clearfix">
+                    <h5 class="card-title">Description:</h5>
+                    <textarea type="text" name="description" rows="3" formControlName="description" autocomplete="off"></textarea>
+                </form>
                 <div class="card-footer text-muted">
                     <div class="row justify-content-around">
                         <p class="justify-content">{{ board.lastUploaded | date:'mediumDate' }}</p>

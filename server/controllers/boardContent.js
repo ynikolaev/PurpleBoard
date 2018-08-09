@@ -25,6 +25,21 @@ module.exports.addBoard = function (req, res) {
     });
 };
 
+module.exports.updateBoard = function (req, res) {
+    let title = req.body.boardInfo.title;
+    let description = req.body.boardInfo.description;
+    let board_id = new mongoose.Types.ObjectId(req.body.board_id);
+    let newvalues = { title: title, description: description };
+    console.log("Title:" + title + "\Board_id: " + board_id + "\Description: " + description);
+    Board.findByIdAndUpdate(board_id, newvalues, function (err, response) {
+        if (err) {
+            res.json({ success: false, message: "Error updating data" });
+        } else {
+            res.json({ success: true, message: "Card updated" });
+        }
+    });
+};
+
 module.exports.getBoards = function (req, res) {
     let id = new mongoose.Types.ObjectId(req.params.id);
     //console.log("User id is: " + req.params.id);
@@ -115,6 +130,20 @@ module.exports.addCard = function (req, res) {
     });
 };
 
+module.exports.updateCard = function (req, res) {
+    let name = req.body.cardInfo.name;
+    let card_id = new mongoose.Types.ObjectId(req.body.card_id);
+    let newvalues = { name: name };
+    //console.log("Name:" + name + "\nCard_id: " + card_id);
+    Card.findByIdAndUpdate(card_id, newvalues, function (err, response) {
+        if (err) {
+            res.json({ success: false, message: "Error updating data" });
+        } else {
+            res.json({ success: true, message: "Card updated" });
+        }
+    });
+};
+
 module.exports.getCards = function (req, res) {
     const mysort = { _id: -1 }; //descending order
     let id = String(req.params.id);
@@ -167,7 +196,7 @@ module.exports.addItem = function (req, res) {
                 if (err) {
                     response = { success: false, message: "Error adding item" };
                 } else {
-                    response = { success: true, message: "Item added" };
+                    response = { success: true, item: result.items[0], message: "Item added" };
                 }
                 res.json(response);
             });
@@ -175,6 +204,33 @@ module.exports.addItem = function (req, res) {
             return res.json({ success: false, message: `Failed to find boards. Error: ${err}` });
         }
     });
+};
+
+module.exports.updateItem = function (req, res) {
+    let text = req.body.itemInfo.text;
+    let card_id = new mongoose.Types.ObjectId(req.body.itemInfo.card_id);
+    let item_id = new mongoose.Types.ObjectId(req.body.item_id);
+    //console.log("Text:" + text + "\nItem: " + item_id + "\nCard: " + card_id);
+    Card.findById({ _id: card_id }, function (err, card) {
+        if (err) {
+            return res.status(400).json({ success: false, message: `Failed to load the card. Error: ${err}` });
+        }
+        if (card.items.id(item_id)) {
+            card.items.id(item_id).text = text;
+            console.log(card.items.id(item_id).text);
+            card.save(function (err, result) {
+                if (err) {
+                    response = { success: false, message: "Error updating item" };
+                } else {
+                    response = { success: true, message: "Item was updated" };
+                }
+                res.json(response);
+            });
+        } else {
+            return res.json({ success: false, message: `Failed to find the card. Error: ${err}` });
+        }
+    });
+
 };
 
 module.exports.removeItem = function (req, res) {
