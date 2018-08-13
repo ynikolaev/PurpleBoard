@@ -78,7 +78,7 @@ export class PurpleBoardComponent implements OnInit {
     public state = 'inactive';
     //Editor
     public openEditor: Boolean = false;
-    public ifEmpty: Boolean = true;
+    public ifEmpty: Boolean = false;
     //Forms
     public ifBoardEdit: Boolean = false;
     private boardForm = this.fb.group({
@@ -115,13 +115,13 @@ export class PurpleBoardComponent implements OnInit {
         ).subscribe(() => this.successMessage = null);
 
         console.log(this.auth.isLoggedIn());
+        this.getBoards();
+    }
+
+    getBoards() {
         this.boardService.getAllBoards(String(this.auth.getId())).subscribe((boards) => {
             this.boards = boards["boards"];
-            if (this.boards.length == 0) {
-                this.ifEmpty = true;
-            } else {
-                this.ifEmpty = false;
-            }
+            setTimeout(this.checkBoardsExist(), 3000);
             console.log(this.boards);
         }, (err) => {
             console.error(err);
@@ -154,7 +154,6 @@ export class PurpleBoardComponent implements OnInit {
 
     editBoard(boardIndex, boardId, title, description) {
         //alert(title);
-        alert(this.editBoardForm.valid);
         if (this.editBoardForm.valid) {
             this.boardInfo = this.editBoardForm.value;
             this.boardInfo._id = boardId;
@@ -181,7 +180,7 @@ export class PurpleBoardComponent implements OnInit {
             if (result["success"] = true) {
                 this.boards.splice(index, 1);
                 this.changeSuccessMessage(`Board "${title}" was deleted successfully!`, `success`);
-                this.checkBoardsExist();
+                setTimeout(this.checkBoardsExist(), 3000);
             } else {
                 this.changeSuccessMessage(`Board "${title}" was not deleted!`, `danger`);
             }

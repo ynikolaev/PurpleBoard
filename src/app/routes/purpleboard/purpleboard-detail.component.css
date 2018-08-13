@@ -1,4 +1,5 @@
 /* BASE CSS */
+
 .container-fluid {
     height: 75vh;
 }
@@ -24,7 +25,6 @@ img {
 /* ICONS */
 
 .modify-icons {
-    cursor: pointer;
     font-size: .8rem;
     margin: .2rem 0;
     opacity: 1;
@@ -49,6 +49,21 @@ img {
     min-height: 45vh;
 }
 
+.list-row {
+    display: inline-block;
+    width: 100%;
+}
+
+.list-row p {
+    margin-top: 0 !important;
+}
+
+.list-col {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
 .list-group {
     max-height: 45vh;
     overflow: auto;
@@ -62,31 +77,36 @@ img {
     margin: 5px 5px;
 }
 
-.list-icon {
+.list-icon-left {
     opacity: 1;
     cursor: pointer;
     padding: 0 5px;
+    position: absolute;
+    top: 0;
+    right: 25px;
 }
 
-.fa-times-circle, .fa-ban, .fa-wrench, .fa-check {
+.list-icon-right{
+    opacity: 1;
+    cursor: pointer;
+    padding: 0 5px;
+    position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+.fa-times-circle,
+.fa-ban,
+.fa-wrench,
+.fa-check {
     color: #553f7a;
 }
 
-.fa-times-circle:hover, .fa-ban:hover, .fa-wrench:hover, .fa-check:hover {
+.fa-times-circle:hover,
+.fa-ban:hover,
+.fa-wrench:hover,
+.fa-check:hover {
     color: #d1befa;
-}
-
-.list-row {
-    padding: 0 !important;
-}
-
-.list-row p {
-    margin-top: 0rem;
-}
-
-.list-col {
-    padding: .1rem !important;
-    display: inline !important;
 }
 
 /* CARDS */
@@ -117,6 +137,7 @@ img {
     color: white;
     cursor: pointer;
     height: 100% !important;
+    width: 100%;
 }
 
 .card-header p {
@@ -138,6 +159,7 @@ img {
 
 .card-header.light-header a {
     color: #3D1255 !important;
+    width: 100%;
 }
 
 .card-header.light-header a:hover {
@@ -159,16 +181,21 @@ img {
 }
 
 /* INPUTS */
-
+.input-full {
+    width: 210px !important;
+}
 .input-form {
     margin: 0 0 5px 0;
 }
 
-input[type=text], select, textarea {
+input[type=text],
+select,
+textarea {
     width: 85%;
 }
 
 /* BUTTONS */
+
 .input-form button {
     min-width: 10px;
     width: 30px;
@@ -185,4 +212,18 @@ input[type=text], select, textarea {
     width: 20%;
     margin-top: 40px;
     font-size: .7rem;
+}
+
+/*--- Draggable Objects --*/
+.draggable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.dragging {
+    opacity: 0.5;
+}
+
+.movable:not(.dragging) {
+    transition: transform 300ms ease-in-out;
 }

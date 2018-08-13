@@ -99,7 +99,7 @@ export class PurpleBoardDetailComponent implements OnInit {
     public items: ItemDetails[] = [];
     //Base Variables
     public board_id: String;
-    public ifEmpty: Boolean = true;
+    public ifEmpty: Boolean = false;
     public openEditor: Boolean = false;
     public ifItemEdit: Boolean = false;
     public ifCardEdit: Boolean = false;
@@ -381,5 +381,18 @@ export class PurpleBoardDetailComponent implements OnInit {
 
     gotoBoards() {
         this.router.navigateByUrl('/boards');
+    }
+
+    //DRAG AND DROP
+    onDragStart() {
+        console.log(`drag start`);
+    }
+
+    onDragMove(event: PointerEvent) {
+        console.log(`drag move ${Math.round(event.clientX)}, ${Math.round(event.clientY)}`);
+    }
+
+    onDragEnd() {
+        console.log(`drag end`);
     }
 }

@@ -34,7 +34,7 @@ Users.methods.generateJwt = function () {
         email: this.email,
         firstname: this.name,
         lastname: this.name,
-    }, config.secret, { expiresIn: 3600 });
+    }, config.secret, { expiresIn: 86400 }); //24h
 };
 
 module.exports = mongoose.model('Users', Users);

@@ -10,6 +10,7 @@ import { PurpleboardService } from '../../_services/purpleboard.service';
 
 import { PurpleboardRoutingModule } from './purpleboard-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { DraggableModule } from '../../draggable/draggable.module';
  
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     ReactiveFormsModule,
     PurpleboardRoutingModule,
     BrowserAnimationsModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    DraggableModule
   ],
   declarations: [
     PurpleBoardDetailComponent,
