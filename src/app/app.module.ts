@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-import { ClarityModule } from '@clr/angular';
+import { ClarityModule, ClrModal } from '@clr/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -35,8 +35,6 @@ import { AnimboxComponent } from './_animations/animbox/animbox.component';
 import { NotFoundPage } from './routes/404page/404page.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
-import { AdminComponent } from './admin/admin.component';
-import { UserDetailsComponent } from './admin/user-details/user-details.component';
 import { ProfileComponent } from './profile/profile.component';
 
 import { UserService } from './_services/users.service';
@@ -50,16 +48,6 @@ const ROUTES: Routes = [
     data: {
       animation: {
         value: 'home',
-      }
-    }
-  },
-  {
-    path: 'admin',
-    component: AdminComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      animation: {
-        value: 'admin',
       }
     }
   },
@@ -108,12 +96,9 @@ const ROUTES: Routes = [
     FooterComponent,
     NotFoundPage,
     LoginDialogComponent,
-    AdminComponent,
-    UserDetailsComponent,
     ProfileComponent
   ],
   imports: [
-    HttpClientModule,
     HttpModule,
     BrowserModule,
     FormsModule,

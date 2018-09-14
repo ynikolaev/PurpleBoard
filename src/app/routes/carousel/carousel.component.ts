@@ -13,8 +13,8 @@ export class CarouselComponent implements OnInit {
     background2;
     @ViewChild('carousel') carousel: any;
     constructor(config: NgbCarouselConfig) {
-        this.background1 = this.images.push("./assets/images/background1.gif");
-        this.background2 = this.images.push("./assets/images/background1.gif");
+        this.background1 = this.images.push("./assets/images/carousel.png");
+        this.background2 = this.images.push("./assets/images/carousel.png");
         // customize default values of carousels used by this component tree
         config.interval = 0;
         config.wrap = true;

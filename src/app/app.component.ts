@@ -34,8 +34,8 @@ import {
         backgroundColor: '#004f00',
         transform: 'scale(1)'
       })),
-      state('black', style({
-        backgroundColor: '#3f3f3f',
+      state('lightpurple', style({
+        backgroundColor: '#4e2977',
         transform: 'scale(1)'
       })),
       state('purple', style({
@@ -51,7 +51,7 @@ import {
         transform: 'scale(1)'
       })),
       transition('* => green', animate('800ms')),
-      transition('* => black', animate('800ms')),
+      transition('* => lightpurple', animate('800ms')),
       transition('* => purple', animate('800ms')),
       transition('* => red', animate('800ms')),
       transition('* => blue', animate('800ms'))
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
     this._router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
-    this.color = "#d5d5d5";
+    this.color = "#4e2977";
   }
 
   ngOnInit() {
@@ -96,9 +96,9 @@ export class AppComponent implements OnInit {
   setColor(state) {
     this.switchstate = state;
     this.color = state;
-    if (state == "black") {
-      //console.log("state is black");
-      this.color = "#d5d5d5";
+    if (state == "lightpurple") {
+      //console.log("state is lightpurple");
+      this.color = "#4e2977";
     } else if (state == "purple") {
       this.color = "#c698f0";
     } else if (state == "green") {
@@ -123,7 +123,7 @@ export class AppComponent implements OnInit {
     } else if (animation['value'] == "admin") {
       this.setColor("blue");
     } else if (animation['value'] == "home") {
-      this.setColor("black");
+      this.setColor("lightpurple");
     }
     //console.log(animation['value']);
     return animation['value'] || null;

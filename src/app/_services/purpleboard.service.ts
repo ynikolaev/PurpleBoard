@@ -10,7 +10,14 @@ import 'rxjs/add/operator/catch';
 import { BoardDetails, UpdateTime, CardDetails, ItemDetails } from './_intefaces/interfaces'
 
 export class Board {
-    constructor(public _id: String, public title: String, public description: String, public lastUploaded: Number, public owner_id: String) { }
+    _id: String;
+    title: String;
+    description: String;
+    lastUploaded: Number;
+    owner_id: String;
+    constructor(values: Object = {}) {
+        Object.assign(this, values);
+    }
 }
 
 export class Card {
@@ -22,15 +29,6 @@ export class Item {
 }
 
 const apiUrl = "http://localhost:3000/api"; //backend server
-
-const BOARDS = [
-    new Board("11", 'Mr. Nice', 'Desc 1 qwerty', 1522207208920, 'qwqe'),
-    new Board("11", 'Mr. Nice', 'Desc 1 qwerty', 1522207208920, 'qwqe'),
-    new Board("11", 'Mr. Nice', 'Desc 1 qwerty', 1522207208920, 'qwqe'),
-    new Board("11", 'Mr. Nice', 'Desc 1 qwerty', 1522207208920, 'qwqe'),
-    new Board("11", 'Mr. Nice', 'Desc 1 qwerty', 1522207208920, 'qwqe'),
-    new Board("11", 'Mr. Nice', 'Desc 1 qwerty', 1522207208920, 'qwqe'),
-];
 
 @Injectable()
 export class PurpleboardService {
@@ -71,7 +69,7 @@ export class PurpleboardService {
             .catch(this.handleError);
     }
 
-    public getAllBoards(user_id: String): Observable<BoardDetails[]> {
+    public getAllBoards(user_id: String) {
         let myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         let options = new RequestOptions({ headers: myHeaders });

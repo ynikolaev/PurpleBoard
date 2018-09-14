@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { UserService } from '../_services/users.service';
 import { AuthenticationService, TokenPayload } from '../_services/authentication.service';
-
+import { ClrModal } from '@clr/angular';
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',

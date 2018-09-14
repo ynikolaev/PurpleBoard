@@ -11,6 +11,7 @@ import { PurpleboardService } from '../../_services/purpleboard.service';
 import { PurpleboardRoutingModule } from './purpleboard-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DraggableModule } from '../../draggable/draggable.module';
+import { DragulaModule } from 'ng2-dragula';
  
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { DraggableModule } from '../../draggable/draggable.module';
     PurpleboardRoutingModule,
     BrowserAnimationsModule,
     AngularFontAwesomeModule,
-    DraggableModule
+    DraggableModule,
+    DragulaModule
   ],
   declarations: [
     PurpleBoardDetailComponent,

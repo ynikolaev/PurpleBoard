@@ -1,16 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Metrophobic|Sarala');
 @import "../node_modules/ng2-slim-loading-bar/style.css";
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "~@angular/cdk/overlay";
+@include cdk-overlay();
+
 /*---Global Section --*/
 
-html, body {
+html,
+body {
     height: 100%;
     width: 100%;
     font-family: 'Metrophobic', sans-serif !important;
     color: #222;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Sarala', sans-serif !important;
 }
 
@@ -47,7 +56,9 @@ p {
     color: #ffffff !important;
 }
 
-.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus {
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem #6648b1 !important;
 }
 
@@ -100,6 +111,41 @@ p {
 
 [class*="col-"] {
     padding: 1rem;
+}
+
+/* in-flight clone */
+
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    pointer-events: none;
+}
+
+/* high-performance display:none; helper */
+
+.gu-hide {
+    left: -9999px !important;
+}
+
+/* added to mirrorContainer (default = body) while dragging */
+
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+/* added to the source element while its mirror is dragged */
+
+.gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
 }
 
 /*

@@ -138,7 +138,7 @@ export class PurpleBoardComponent implements OnInit {
                 if (boards["success"]) {
                     console.log("success");
                     this.boardInfo = boards["boards"];
-                    this.boards.unshift(new Board(this.boardInfo._id, this.boardInfo.title, this.boardInfo.description, this.boardInfo.lastUploaded, this.boardInfo.owner_id));
+                    this.boards.unshift(new Board(this.boardInfo));
                     this.changeSuccessMessage(`Board "${this.boardInfo.title}" was added successfully!`, `success`);
                 }
             }, (err) => {

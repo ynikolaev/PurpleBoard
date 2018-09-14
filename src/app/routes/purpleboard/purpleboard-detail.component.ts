@@ -9,10 +9,11 @@ import { BoardDetails, CardDetails, UpdateTime, ItemDetails } from '../../_servi
 import { trigger, state, style, animate, transition, keyframes, group, query, stagger, animateChild } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { SortEvent } from '../../draggable/sortable-list.directive';
 
 @Component({
     templateUrl: './purpleboard-detail.component.html',
-    styleUrls: ['./purpleboard-detail.component.css'],
+    styleUrls: ['./purpleboard-detail.component.scss'],
     animations: [
         trigger('boardAnimation', [
             state('inactive', style({
@@ -86,7 +87,7 @@ import { debounceTime } from 'rxjs/operators';
 
 export class PurpleBoardDetailComponent implements OnInit {
     //Alert
-    private _success = new Subject<string>();
+    public _success = new Subject<string>();
     staticAlertClosed = false;
     successMessage: String;
     dateAlert = Date.now();
@@ -106,32 +107,32 @@ export class PurpleBoardDetailComponent implements OnInit {
     public state = 'inactive';
     public today: Number = Date.now();
     //Forms
-    private cardForm = this.fb.group({
+    public cardForm = this.fb.group({
         name: ['', Validators.required],
         description: ['', Validators.required],
         label: ['', Validators.required]
     });
-    private itemForm = this.fb.group({
+    public itemForm = this.fb.group({
         text: ['', Validators.required],
         label: [''],
         assigned_user: [''],
         card_id: ['']
     });
-    private editItemForm = this.fb.group({
+    public editItemForm = this.fb.group({
         text: ['', Validators.required]
     });
-    private editCardForm = this.fb.group({
+    public editCardForm = this.fb.group({
         name: ['', Validators.required]
     });
     //Interfaces
-    private boardInfo: BoardDetails = {
+    public boardInfo: BoardDetails = {
         _id: '',
         title: '',
         description: '',
         lastUploaded: Date.now(),
         owner_id: ''
     };
-    private timeUpdate: UpdateTime = {
+    public timeUpdate: UpdateTime = {
         _id: '',
         time: Date.now()
     };
@@ -142,7 +143,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         assigned_user: '',
         card_id: ''
     };
-    private cardInfo: CardDetails = {
+    public cardInfo: CardDetails = {
         _id: '',
         name: '',
         description: '',
@@ -159,6 +160,19 @@ export class PurpleBoardDetailComponent implements OnInit {
         private boardService: PurpleboardService,
         private fb: FormBuilder
     ) { }
+
+    sortableList = [
+        'Box 1',
+        'Box 2',
+        'Box 3',
+        'Box 4',
+        'Box 5',
+        'Box 6',
+        'Box 7',
+        'Box 8',
+        'Box 9',
+        'Box 10'
+    ];
 
     ngOnInit(): void {
         window.scrollTo(0, 0);
@@ -179,7 +193,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         this.getBoard(this.board_id);
     }
 
-    public getBoard(board_id: String) {
+    public getBoard(board_id: String): void {
         this.boardService.getBoard(String(board_id)).subscribe((boards) => {
             this.boards = boards["boards"];
             //console.log(this.boards);
@@ -189,7 +203,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         });
     }
 
-    public getCards(board_id: String) {
+    public getCards(board_id: String): void {
         this.boardService.getCards(String(board_id)).subscribe((cards) => {
             this.cards = cards["cards"];
             setTimeout(this.checkCardsExist(), 2000);
@@ -198,7 +212,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         });
     }
 
-    cardSubmit() {
+    public cardSubmit(): void {
         this.openEditor = false;
         if (this.cardForm.valid) {
             this.cardInfo = this.cardForm.value;
@@ -223,7 +237,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         }
     }
 
-    itemSubmit(card_index, card: any) {
+    public itemSubmit(card_index, card: any): void {
         console.log(card_index);
         console.log(card);
         this.openEditor = false;
@@ -250,7 +264,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         }
     }
 
-    goThroughCards() {
+    public goThroughCards(): void {
         for (let key in this.cards) {
             //console.log(this.cards[key]);
             for (let key2 in this.cards[key]["items"]) {
@@ -262,7 +276,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         }
     }
 
-    editItem(itemIndex, cardIndex, cardId, itemId, text) {
+    public editItem(itemIndex, cardIndex, cardId, itemId, text): void {
         //alert(text);
         if (this.editItemForm.valid) {
             this.itemInfo = this.editItemForm.value;
@@ -285,7 +299,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         }
     }
 
-    editCard(cardIndex, cardId, name) {
+    public editCard(cardIndex, cardId, name): void {
         //alert(text);
         if (this.editCardForm.valid) {
             this.cardInfo = this.editCardForm.value;
@@ -308,7 +322,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         }
     }
 
-    removeItem(itemIndex, cardIndex, cardId, itemId) {
+    public removeItem(itemIndex, cardIndex, cardId, itemId): void {
         //alert("Card Index: " + cardIndex + " Item Index: " + itemIndex + " Card Id: " + cardId + " Item Id: " + itemId);
         this.cards[cardIndex]["items"].splice(itemIndex, 1);
         this.boardService.removeItem(cardId, itemId).subscribe((result) => {
@@ -321,7 +335,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         });
     }
 
-    removeCard(cardIndex, cardId, name) {
+    public removeCard(cardIndex, cardId, name): void {
         //alert("Card Index: " + cardIndex + " Card Id: " + cardId);
         this.cards.splice(cardIndex, 1);
         this.boardService.removeCard(cardId).subscribe((result) => {
@@ -337,7 +351,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         });
     }
 
-    updateBoardTime() {
+    public updateBoardTime(): void {
         this.timeUpdate._id = this.board_id;
         this.boardService.updateTime(this.timeUpdate).subscribe((result) => {
             if (result["success"]) {
@@ -348,7 +362,7 @@ export class PurpleBoardDetailComponent implements OnInit {
         });
     }
 
-    checkCardsExist() {
+    public checkCardsExist(): void {
         if (!this.cards || this.cards.length == 0) {
             this.ifEmpty = true;
             this.changeSuccessMessage("No Cards found in the Database", `warning`);
@@ -358,28 +372,28 @@ export class PurpleBoardDetailComponent implements OnInit {
     }
 
     //Set alet message
-    public changeSuccessMessage(message, type) {
+    public changeSuccessMessage(message, type): void {
         this.alertType = type;
         this._success.next(`${message}`);
     }
 
-    toggleState() {
+    public toggleState(): void {
         this.state = this.state === 'active' ? 'inactive' : 'active';
     }
 
-    editItemState(text, id) {
+    public editItemState(text, id): void {
         //alert(id);
         this.editItemForm.setValue({ text: text });
         this.ifItemEdit = this.ifItemEdit === false ? true : false;
     }
 
-    editCardState(text, id) {
+    public editCardState(text, id): void {
         //alert(id);
         this.editCardForm.setValue({ name: text });
         this.ifCardEdit = this.ifCardEdit === false ? true : false;
     }
 
-    gotoBoards() {
+    public gotoBoards(): void {
         this.router.navigateByUrl('/boards');
     }
 
@@ -394,5 +408,13 @@ export class PurpleBoardDetailComponent implements OnInit {
 
     onDragEnd() {
         console.log(`drag end`);
+    }
+
+    public sort(event: SortEvent): void {
+        const current = this.sortableList[event.currentIndex];
+        const swapWith = this.sortableList[event.newIndex];
+
+        this.sortableList[event.newIndex] = current;
+        this.sortableList[event.currentIndex] = swapWith;
     }
 }

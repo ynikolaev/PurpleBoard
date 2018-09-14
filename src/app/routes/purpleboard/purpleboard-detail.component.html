@@ -7,7 +7,9 @@
         </section>
         <section class="d-flex justify-content-end" *ngIf="successMessage" @alertHeader>
             <ngb-alert [type]="alertType" [dismissible]="false" (close)="successMessage = null">
-                <span> {{ successMessage }} ({{ dateAlert | date:'shortTime' }}) </span>
+                <div class="row">
+                    <span class="alert-section"> {{ successMessage }} ({{ dateAlert | date:'shortTime' }}) </span>
+                </div>
             </ngb-alert>
         </section>
     </section>
@@ -51,11 +53,12 @@
 
     <!-- If editor is opened, board section hides-->
     <section *ngIf="!openEditor" id="board" [@boardAnimation]="state">
-        <div *ngIf="!ifEmpty; else errorBlock" class="scrolling-wrapper" [@listAnimation]="cards.length">
-            <div *ngFor="let card of cards; let i = index; first as isFirst" [attr.data-index]="i" class="card">
+        <div *ngIf="!ifEmpty; else errorBlock" class="scrolling-wrapper" [@listAnimation]="cards.length" appSortableList (sort)="sort($event)">
+            <div *ngFor="let card of cards; let i = index; first as isFirst" [attr.data-index]="i" class="card" appSortable>
                 <!-- HostBinding (draggable.directive.ts) add class 'draggable' to 'card' class-->
                 <section>
-                    <div class="card-header light-header" (mouseover)="card.hover=true" (mouseleave)="card.hover=false; card.editable=false; ifCardEdit=false" (click)="card.movable=true">
+                    <div class="card-header light-header" (mouseover)="card.hover=true" (mouseleave)="card.hover=false; card.editable=false; ifCardEdit=false"
+                        (click)="card.movable=true">
                         <!-- Icon to accept changes -->
                         <div class="flex-grow-1">
                             <a *ngIf="card.editable==true" (click)="editCard(i, card._id, card.name); card.editable=false; ifCardEdit=false" class="modify-icons">
@@ -86,13 +89,14 @@
                             </a>
                         </div>
                     </div>
-                    <ul class="list-group list-group-flush" appSortableList>
+                    <ul class="list-group list-group-flush">
                         <div [@itemAnimation]="card.items && card.items.length">
-                            <li *ngFor="let item of card.items; let x = index;" class="list-group-item" (mouseover)="item.hover=true" (mouseleave)="item.hover=false; item.editable=false; ifItemEdit=false" appMovable [appMovableReset]="true">
+                            <li *ngFor="let item of card.items; let x = index;" class="list-group-item" (mouseover)="item.hover=true" (mouseleave)="item.hover=false; item.editable=false; ifItemEdit=false">
                                 <div class="list-row">
                                     <div class="list-col">
                                         <!-- Item text field -->
-                                        <p *ngIf="item.editable!=true"> {{ (item.text.length>100)? (item.text | slice:0:100)+'..':(item.text) }}
+                                        <p *ngIf="item.editable!=true"> {{ (item.text.length>100)? (item.text | slice:0:100)+'..':(item.text)
+                                            }}
                                         </p>
                                         <!-- Input if editable mode is on -->
                                         <form *ngIf="item.editable==true" [formGroup]="editItemForm">
@@ -105,7 +109,7 @@
                                         <i class="fas fa-check"></i>
                                     </div>
                                     <!-- Icon to enter edit mode -->
-                                    <div *ngIf="item.hover && (!item.editable || item.editable==false)" (click)="editItemState(item.text,item._id); item.editable=ifItemEdit"
+                                    <div *ngIf="item.hover && (!item.editable || item.editable===false)" (click)="editItemState(item.text,item._id); item.editable=ifItemEdit"
                                         class="list-icon-left">
                                         <i class="fas fa-wrench"></i>
                                     </div>
@@ -116,8 +120,8 @@
                                     <!-- Icon to discard changes -->
                                     <div *ngIf="item.editable==true" (click)="item.editable=false; ifItemEdit=false" class="list-icon-right">
                                         <i class="fas fa-ban"></i>
-                                    </div>
-                                </div>
+                                    </div><!-- list-col -->
+                                </div><!-- list-row -->
                             </li>
                         </div>
                         <li *ngIf="!card.items || card.items.length==0" class="list-group-item">
@@ -144,6 +148,71 @@
 <div class="d-flex justify-content-end">
     <button type="button" class="btn btn-primary back" (click)="gotoBoards()">Back</button>
 </div>
+
+<h2>Part 1 - draggable directive</h2>
+<section class="container-fluid">
+    <div class="box" appDraggable>
+        Draggable
+    </div>
+
+    <h2>Part 2 - movable directive</h2>
+    <div class="box" appMovable [appMovableReset]="true">
+        <div class="box" appMovable>
+            Movable 1
+        </div>
+
+        <div class="box" appMovable [appMovableReset]="true">
+            Movable 2
+        </div>
+    </div>
+
+    <h2>Part 3 - movable area</h2>
+
+    <div class="area" appMovableArea>
+        <div class="box" appMovable>
+            Movable 1
+        </div>
+
+        <div class="box" appMovable>
+            Movable 2
+        </div>
+    </div>
+
+    <button (click)="add()">Add</button>
+
+    <h2>Part 4 - the draggable helper</h2>
+
+    <div class="box" appDraggable>
+        Drag me!
+
+        <div class="box helper" *appDraggableHelper>
+            Dragging
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Part 5 - the sortable list</h2>
+
+    <h3>Vertical</h3>
+
+    <ul class="ul-test" appSortableList (sort)="sort($event)">
+        <li *ngFor="let box of sortableList" class="box" appSortable>
+            {{ box }}
+            <div class="box" *appDraggableHelper>{{ box }}</div>
+        </li>
+    </ul>
+
+    <h3>Horizontal</h3>
+
+    <ul class="horizontal" appSortableList (sort)="sort($event)">
+        <li *ngFor="let box of sortableList" class="box" appSortable>
+            {{ box }}
+            <div class="box" *appDraggableHelper>{{ box }}</div>
+        </li>
+    </ul>
+</section>
+
 <ng-template #errorBlock>
     <section class="row warning justify-content-center" @errorHeader>
         <ngb-alert [dismissible]="false" class="col-8">
