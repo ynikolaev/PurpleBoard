@@ -91,7 +91,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <div [@itemAnimation]="card.items && card.items.length">
-                            <li *ngFor="let item of card.items; let x = index;" class="list-group-item" (mouseover)="item.hover=true" (mouseleave)="item.hover=false; item.editable=false; ifItemEdit=false">
+                            <li *ngFor="let item of card.items; let x = index;" class="list-group-item" (mouseover)="item.hover=true" (mouseleave)="item.hover=false; item.editable=false; ifItemEdit=false" draggable="true">
                                 <div class="list-row">
                                     <div class="list-col">
                                         <!-- Item text field -->
@@ -124,7 +124,7 @@
                                 </div><!-- list-row -->
                             </li>
                         </div>
-                        <li *ngIf="!card.items || card.items.length==0" class="list-group-item">
+                        <li *ngIf="!card.items || card.items.length==0" class="list-group-item empty">
                             <div class="row list-row">
                                 <p class="text-center col-12">Empty Card</p>
                             </div>
@@ -148,7 +148,7 @@
 <div class="d-flex justify-content-end">
     <button type="button" class="btn btn-primary back" (click)="gotoBoards()">Back</button>
 </div>
-
+<!-- 
 <h2>Part 1 - draggable directive</h2>
 <section class="container-fluid">
     <div class="box" appDraggable>
@@ -212,16 +212,14 @@
         </li>
     </ul>
 </section>
-
+-->
 <ng-template #errorBlock>
     <section class="row warning justify-content-center" @errorHeader>
         <ngb-alert [dismissible]="false" class="col-8">
-            <picture class="col-3">
-                <img src="../../../assets/images/pb-icon-wrn.png" alt="Purple Board Icon">
+            <picture class="col-8">
+                <img class="no-card" src="../../../assets/images/pb-icon-wrn.png" alt="Purple Board Icon">
+                <span class="text-center">Add new cards to display.</span>
             </picture>
-            <h1 class="col-7 offset-1">
-                No Cards
-            </h1>
         </ngb-alert>
     </section>
 </ng-template>

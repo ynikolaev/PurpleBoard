@@ -7,11 +7,13 @@ import {
 import { UserService } from '../_services/users.service';
 import { AuthenticationService, TokenPayload } from '../_services/authentication.service';
 import { ClrModal } from '@clr/angular';
+
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.css']
 })
+
 export class LoginDialogComponent implements OnInit {
   public showLogin: boolean;
   public showRegister: boolean;
@@ -139,7 +141,7 @@ export class LoginDialogComponent implements OnInit {
         if (result.success == true) {
           this.loginForm.reset();
           this.showLogin = false;
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('/boards');
         } else {
           this.loginForm.reset();
           this.errorMessage = 'Details are invalid!';
@@ -151,6 +153,7 @@ export class LoginDialogComponent implements OnInit {
     } else if (this.registerForm.valid) {
       this.auth.register(this.registerForm.value).subscribe(() => {
         //this.router.navigateByUrl('/profile');
+        this.router.navigateByUrl('/boards');
       }, (err) => {
         console.error(err);
       });

@@ -10,10 +10,6 @@ let Users = new mongoose.Schema({
     unique: true,
     required: true
   },
-  password: {
-    type: String,
-    required: true
-  },
   firstname: String,
   lastname: String,
   registration_date: {
@@ -47,6 +43,7 @@ Users.methods.generateJwt = function () {
     email: this.email,
     firstname: this.name,
     lastname: this.name,
+    isFirstTime: this.isFirstTime,
   }, config.secret, {
     expiresIn: 86400
   }); //24h

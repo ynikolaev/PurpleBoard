@@ -50,84 +50,36 @@
           <h3 class="welcome">Welcome to</h3>
           REGISTRATION PAGE
           <h5 class="hint" class="hint">Enter your details to proceed</h5>
-          <div class="alert alert-danger" *ngIf="email.errors && (email.dirty || email.touched)">
-            <div class="alert-items" *ngIf="email.errors.required">
+          <div class="alert alert-danger" *ngIf="(email.errors && (email.dirty || email.touched)) || (password.errors && (password.dirty || password.touched)) || (firstname.errors && (firstname.dirty || firstname.touched)) || (lastname.errors && (lastname.dirty || lastname.touched))">
+            <div class="alert-items">
               <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                <div *ngIf="email.errors && (email.dirty || email.touched)">
+                  <p *ngIf="email.errors.required && (email.dirty || email.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Email is required</p>
+                  <p *ngIf="email.errors.isEmailUnique && (email.dirty || email.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Email is already registered</p>
+                  <p *ngIf="email.errors.pattern && (email.dirty || email.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> The email address must contain at least the @ character</p>
                 </div>
-                <span class="alert-text">Email is required</span>
-              </div>
-            </div>
-            <div class="alert-items" *ngIf="email.errors.isEmailUnique">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                <div *ngIf="password.errors && (password.dirty || password.touched)">
+                  <p *ngIf="password.errors.required && (password.dirty || password.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Password is required</p>
+                  <p *ngIf="password.errors.minlength && (password.dirty || password.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength
+                    - password.errors.minlength.actualLength}} characters </p>
                 </div>
-                <span class="alert-text">Email is already registered</span>
-              </div>
-            </div>
-            <div class="alert-items" *ngIf="email.errors.pattern">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">
+                  <p *ngIf="firstname.errors.required && (firstname.dirty || firstname.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Enter your firstname</p>
+                  <p *ngIf="firstname.errors.minlength && (firstname.dirty || firstname.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Firstname must be min 2 characters long</p>
                 </div>
-                <span class="alert-text">The email address must contain at least the @ character</span>
-              </div>
-            </div>
-          </div>
-          <div class="alert alert-danger" *ngIf="password.errors && (password.dirty || password.touched)">
-            <div class="alert-items" *ngIf="password.errors.required">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">
+                  <p *ngIf="lastname.errors.required && (lastname.dirty || lastname.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Enter your lastname</p>
+                  <p *ngIf="lastname.errors.minlength && (lastname.dirty || lastname.touched)" class="alert-text">
+                    <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon> Lastname must be min 2 characters long</p>
                 </div>
-                <span class="alert-text">Password is required</span>
-              </div>
-            </div>
-            <div class="alert-items" *ngIf="password.errors.minlength">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-                </div>
-                <span class="alert-text">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}
-                  characters </span>
-              </div>
-            </div>
-          </div>
-          <div class="alert alert-danger" *ngIf="firstname.errors && (firstname.dirty || firstname.touched)">
-            <div class="alert-items" *ngIf="firstname.errors.required">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-                </div>
-                <span class="alert-text">Enter your firstname</span>
-              </div>
-            </div>
-            <div class="alert-items" *ngIf="firstname.errors.minlength">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-                </div>
-                <span class="alert-text">Firstname must be min 2 characters long</span>
-              </div>
-            </div>
-          </div>
-          <div class="alert alert-danger" *ngIf="lastname.errors && (lastname.dirty || lastname.touched)">
-            <div class="alert-items" *ngIf="lastname.errors.required">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-                </div>
-                <span class="alert-text">Enter your lastname</span>
-              </div>
-            </div>
-            <div class="alert-items" *ngIf="lastname.errors.minlength">
-              <div class="alert-item static">
-                <div class="alert-icon-wrapper">
-                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-                </div>
-                <span class="alert-text">Lastname must be min 2 characters long</span>
               </div>
             </div>
           </div>

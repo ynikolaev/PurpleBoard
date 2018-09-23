@@ -25,3 +25,10 @@
 button {
     margin-top: 20px;
 }
+
+img {
+    &.no-card {
+        height: 100px;
+        width: 100px;
+    }
+}

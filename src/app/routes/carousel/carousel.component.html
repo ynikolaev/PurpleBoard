@@ -1,42 +1,11 @@
 <ngb-carousel #carousel *ngIf="images">
-    <ng-template ngbSlide>
-        <img [src]="images[0]" alt="Random first slide">
-        <div class="carousel-caption">
-            <h1 class="display-2">Purple Board</h1>
-            <h3>Digital Project Board</h3>
-        </div>
-    </ng-template>
+  <ng-template ngbSlide>
+    <div class="carousel-container">
+      <img [src]="images[0]" alt="Random first slide">
+      <div class="carousel-caption">
+        <h1 class="display-2">Purple Board</h1>
+        <h3>Digital Project Board</h3>
+      </div>
+    </div>
+  </ng-template>
 </ngb-carousel>
-
-<!--- Jumbotron -->
-<div class="container-fluid">
-    <div class="row jumbotron">
-            <div class="col-lg-12 col-sm-12 col-md-12 text-center">
-                <h1>University of Central Lancashire</h1>
-            </div>
-        <div class="clr-col-xs-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6 clr-col-xl-6">
-            <h3>Computing BSc (Hons) (2014-2017)</h3>
-            <h3>Grade: First class (1st) </h3>
-            <h4> Core Subjects: Programming in PHP, C# and C++, Frameworks (CodeIgniter, Microsoft ASP.NET MVC), Networking, HTML5/CSS3,
-                Linux, System development lifecycles, Agile System Development, Basics of SQL, Relational Database and Warehouse
-                Database Design.
-            </h4>
-        </div>
-        <div class="clr-col-xs-12 clr-col-sm-12 clr-col-md-6 clr-col-lg-6 clr-col-xl-6">
-            <h3>Master of Science in Computing (2017-2018)</h3>
-            <h3>Grade: ? </h3>
-            <h4> Core Subjects: Programming in Java, Object-Oriented Software Development, Web Development, Project Management,
-                User-Centered System Design and Evaluation, Agile Development. Key Interests: Learning new programming frameworks,
-                web development. Agile Methodologies.
-            </h4>
-        </div>
-    </div>
-</div>
-<!--- Fixed background -->
-<figure class="background-wrap">
-    <div class="fixed-wrap">
-        <div id="fixed">
-
-        </div>
-    </div>
-</figure>

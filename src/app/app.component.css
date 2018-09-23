@@ -6,8 +6,8 @@ a.disabled {
 }
 
 .logo {
-    height: 20% !important;
-    width: 20%;
+    height: 15% !important;
+    width: 15%;
 }
 
 .btn:focus {
@@ -16,6 +16,7 @@ a.disabled {
 
 .navbar {
     padding: .3rem;
+    max-height: 15vh;
 }
 
 /* change the brand and text color */

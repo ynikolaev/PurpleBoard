@@ -1,121 +1,162 @@
-<div class="container-fluid padding">
-    <section class="menu d-flex justify-content-between">
-        <button (click)="openEditor = !openEditor" class="btn btn-primary btn-icon" data-toggle="collapse" href="#boardInput">
-            <i class="fa fa-file fa-lg"></i> Create Board
-        </button>
-        <section class="d-flex justify-content-end alert-section" *ngIf="successMessage" @alertHeader>
-            <ngb-alert [type]="alertType" [dismissible]="false" (close)="successMessage = null">
-                <span> {{ successMessage }} ({{ dateAlert | date:'shortTime' }}) </span>
-            </ngb-alert>
-        </section>
-    </section>
-    <div class="collapse" id="boardInput">
-        <div class="row">
-            <div class="col-md-5 offset-md-3 col-sm-12 col-xs-12">
-                <form novalidate [formGroup]="boardForm" (ngSubmit)="onSubmit()">
-                    <div class="card-header">
-                        <strong>Add Board</strong>
-                    </div>
-                    <div class="card-block">
-                        <div class="card-title">
-                            Title:
-                        </div>
-                        <div class="card-text">
-                            <input type="text" formControlName="title">
-                        </div>
-                    </div>
-                    <div class="card-block">
-                        <div class="card-title">
-                            Description:
-                        </div>
-                        <div class="card-text">
-                            <input type="text" formControlName="description">
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button class="btn btn-primary" type="submit" [disabled]="!boardForm.valid" data-toggle="collapse" href="#boardInput">Add</button>
-                        <button (click)="openEditor = !openEditor" class="btn btn-primary-outline" data-toggle="collapse" href="#boardInput">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+<clr-wizard #wizardmd [(clrWizardOpen)]="mdOpen" [clrWizardClosable]="false" clrWizardSize="md" (clrWizardOnCancel)="doCancel()" (clrWizardOnFinish)="doFinish()" [clrWizardPreventDefaultCancel]="true">
+  <clr-wizard-title>
+    <p>Welcome to </p>
+    Purple Board Wizard
+
+  </clr-wizard-title>
+
+  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+  <clr-wizard-page>
+
+    <ng-template clrPageTitle>Instructions</ng-template>
+    <div class="text-center">
+      <img src="../../../assets/images/pb-icon-wizard.png" alt="Purple Board Icon">
     </div>
-    <section *ngIf="!openEditor" id="board" [@boardAnimation]="state">
-        <div *ngIf="!ifEmpty; else errorBlock" class="row text-left" [@boardAnimation]="boards.length">
-            <div *ngFor="let board of boards; let i = index; first as isFirst" [attr.data-index]="i" [class.selected]="board._id === selectedId"
-                [ngClass]="(isFirst)?'col-xs-12 col-md-6 col-lg-4':'col-xs-12 col-md-6 col-lg-4'" (mouseover)="board.hover=true"
-                (mouseleave)="board.hover=false; board.editable=false; ifBoardEdit=false">
-                <div class="card-header board-header text-center">
-                    <!-- Icon to accept changes -->
-                    <div *ngIf="board.editable==true" (click)="editBoard(i, board._id, board.title, board.description); board.editable=false; ifBoardEdit=false"
-                        class="flex-grow-1">
-                        <button alt="Done" class="btn custom-outline">
-                            Done
-                        </button>
-                    </div>
-                    <!-- Icon enable edit mode -->
-                    <div *ngIf="board.editable!=true" class="flex-grow-1" (click)="editBoardState(board.title, board._id, board.description); board.editable=ifBoardEdit">
-                        <button alt="Edit" class="btn custom-outline">
-                            Edit
-                        </button>
-                    </div>
-                    <!-- Board title -->
-                    <div *ngIf="board.editable!=true" class="flex-grow-3">
-                        <a [routerLink]="['/board', board._id]" class="btn custom-outline text-uppercase">
-                            <!-- Slice title if more than 10 char long -->
-                            <span class="badge badge-purple mat-badge-large">{{ i + 1 }}</span> {{ (board.title.length>10)? (board.title | slice:0:10)+'..':(board.title)
-                            }}
-                        </a>
-                    </div>
-                    <!-- Board edit form -->
-                    <form *ngIf="board.editable==true" [formGroup]="editBoardForm" class="flex-grow-3 text-center">
-                        <input class="text-center" type="text" name="title" formControlName="title" autocomplete="off">
-                    </form>
-                    <!-- Icon to delete board -->
-                    <div *ngIf="board.editable!=true" class="flex-grow-1 text-right">
-                        <button alt="Delete" class="btn custom-outline" (click)="removeBoard(i, board._id, board.title)">
-                            <i class="far fa-trash-alt fa-lg"></i>
-                        </button>
-                    </div>
-                    <!-- Icon to discard changes -->
-                    <div *ngIf="board.editable==true" class="flex-grow-1 text-right modify-icons">
-                        <button alt="Discard" class="btn custom-outline" (click)="board.editable=false; ifBoardEdit=false">
-                            <i class="fas fa-ban fa-lg"></i>
-                        </button>
-                    </div>
-                </div>
-                <div *ngIf="board.editable!=true" class="card-body clearfix">
-                    <h5 class="card-title">Description:</h5>
-                    <p class="card-text text-justify">{{ board.description }}</p>
-                </div>
-                <form *ngIf="board.editable==true" [formGroup]="editBoardForm" class="card-body clearfix">
-                    <h5 class="card-title">Description:</h5>
-                    <textarea type="text" name="description" rows="3" formControlName="description" autocomplete="off"></textarea>
-                </form>
-                <div class="card-footer text-muted">
-                    <div class="row justify-content-around">
-                        <p class="justify-content">{{ board.lastUploaded | date:'mediumDate' }}</p>
-                        <p class="justify-content">
-                            <a [routerLink]="['/board', board._id]" class="btn btn-primary">Open Board</a>
-                        </p>
-                        <p class="justify-content">
-                            {{ board.lastUploaded | date:'shortTime' }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <p class="text-boldfont-weight-bold">
+      <span>Welcome to Purple Board Wizard.</span> This dialog window means that you logged in to the website for the first time.
+    </p>
+    <p>Click next button to proceed through Wizard steps.</p>
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Add Boards</ng-template>
+    <div class="text-center">
+      <button class="btn btn-primary btn-icon">
+        <i class="fa fa-file fa-lg"></i> Create Board
+      </button>
+    </div>
+    <p>To create your first board you need to click that button. Your boards contain cards. Every card contains the items.</p>
+    <p>Items are the maintainable content of the board, they represent the activity.</p>
+    <p>You can create/update/remove Boards, Cards and Items.</p>
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Final Step</ng-template>
+    <div class="text-center">
+      <img src="../../../assets/images/logo.png" alt="Brand Icon">
+    </div>
+    <p>Thank you for using my solution!</p>
+    <p>New updates are coming soon.</p>
+  </clr-wizard-page>
+</clr-wizard>
+<div class="container-fluid padding">
+  <section class="menu d-flex justify-content-between">
+    <button (click)="openEditor = !openEditor" class="btn btn-primary btn-icon" data-toggle="collapse" href="#boardInput">
+      <i class="fa fa-file fa-lg"></i> Create Board
+    </button>
+    <section class="d-flex justify-content-end alert-section" *ngIf="successMessage" @alertHeader>
+      <ngb-alert [type]="alertType" [dismissible]="false" (close)="successMessage = null">
+        <span> {{ successMessage }} ({{ dateAlert | date:'shortTime' }}) </span>
+      </ngb-alert>
     </section>
-    <ng-template #errorBlock>
-        <section class="row warning justify-content-center" @errorHeader>
-            <ngb-alert [dismissible]="false" class="col-8">
-                <picture class="col-3">
-                    <img src="../../../assets/images/pb-icon-wrn.png" alt="Purple Board Icon">
-                </picture>
-                <h1 class="col-7 offset-1">
-                    No Boards
-                </h1>
-            </ngb-alert>
-        </section>
-    </ng-template>
+  </section>
+  <div class="collapse" id="boardInput">
+    <div class="row">
+      <div class="col-md-5 offset-md-3 col-sm-12 col-xs-12">
+        <form novalidate [formGroup]="boardForm" (ngSubmit)="onSubmit()">
+          <div class="card-header">
+            <strong>Add Board</strong>
+          </div>
+          <div class="card-block">
+            <div class="card-title">
+              Title:
+            </div>
+            <div class="card-text">
+              <input type="text" formControlName="title">
+            </div>
+          </div>
+          <div class="card-block">
+            <div class="card-title">
+              Description:
+            </div>
+            <div class="card-text">
+              <input type="text" formControlName="description">
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" type="submit" [disabled]="!boardForm.valid" data-toggle="collapse" href="#boardInput">Add</button>
+            <button (click)="openEditor = !openEditor" class="btn btn-primary-outline" data-toggle="collapse" href="#boardInput">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <section *ngIf="!openEditor" id="board" [@boardAnimation]="state">
+    <div *ngIf="!ifEmpty; else errorBlock" class="row text-left" [@boardAnimation]="boards.length">
+      <div *ngFor="let board of boards; let i = index; first as isFirst" [attr.data-index]="i" [class.selected]="board._id === selectedId"
+        [ngClass]="(isFirst)?'col-xs-12 col-md-6 col-lg-4':'col-xs-12 col-md-6 col-lg-4'" (mouseover)="board.hover=true" (mouseleave)="board.hover=false; board.editable=false; ifBoardEdit=false">
+        <div class="card-header board-header text-center">
+          <!-- Icon to accept changes -->
+          <div *ngIf="board.editable==true" (click)="editBoard(i, board._id, board.title, board.description); board.editable=false; ifBoardEdit=false"
+            class="flex-grow-1">
+            <button alt="Done" class="btn custom-outline">
+              Done
+            </button>
+          </div>
+          <!-- Icon enable edit mode -->
+          <div *ngIf="board.editable!=true" class="flex-grow-1" (click)="editBoardState(board.title, board._id, board.description); board.editable=ifBoardEdit">
+            <button alt="Edit" class="btn custom-outline">
+              Edit
+            </button>
+          </div>
+          <!-- Board title -->
+          <div *ngIf="board.editable!=true" class="flex-grow-3">
+            <a [routerLink]="['/board', board._id]" class="btn custom-outline text-uppercase">
+              <!-- Slice title if more than 10 char long -->
+              <span class="badge badge-purple mat-badge-large">{{ i + 1 }}</span> {{ (board.title.length>10)? (board.title | slice:0:10)+'..':(board.title) }}
+            </a>
+          </div>
+          <!-- Board edit form -->
+          <form *ngIf="board.editable==true" [formGroup]="editBoardForm" class="flex-grow-3 text-center">
+            <input class="text-center" type="text" name="title" formControlName="title" autocomplete="off">
+          </form>
+          <!-- Icon to delete board -->
+          <div *ngIf="board.editable!=true" class="flex-grow-1 text-right">
+            <button alt="Delete" class="btn custom-outline" (click)="removeBoard(i, board._id, board.title)">
+              <i class="far fa-trash-alt fa-lg"></i>
+            </button>
+          </div>
+          <!-- Icon to discard changes -->
+          <div *ngIf="board.editable==true" class="flex-grow-1 text-right modify-icons">
+            <button alt="Discard" class="btn custom-outline" (click)="board.editable=false; ifBoardEdit=false">
+              <i class="fas fa-ban fa-lg"></i>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="board.editable!=true" class="card-body clearfix">
+          <h5 class="card-title">Description:</h5>
+          <p class="card-text text-justify">{{ board.description }}</p>
+        </div>
+        <form *ngIf="board.editable==true" [formGroup]="editBoardForm" class="card-body clearfix">
+          <h5 class="card-title">Description:</h5>
+          <textarea type="text" name="description" rows="3" formControlName="description" autocomplete="off"></textarea>
+        </form>
+        <div class="card-footer text-muted">
+          <div class="row justify-content-around">
+            <p class="justify-content">{{ board.lastUploaded | date:'mediumDate' }}</p>
+            <p class="justify-content">
+              <a [routerLink]="['/board', board._id]" class="btn btn-primary">Open Board</a>
+            </p>
+            <p class="justify-content">
+              {{ board.lastUploaded | date:'shortTime' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ng-template #errorBlock>
+    <section class="row warning justify-content-center" @errorHeader>
+      <ngb-alert [dismissible]="false" class="col-8">
+        <picture class="col-3">
+          <img class="no-card" src="../../../assets/images/pb-icon-wrn.png" alt="Purple Board Icon">
+          <span class="text-center">Add new boards to display.</span>
+        </picture>
+      </ngb-alert>
+    </section>
+  </ng-template>
 </div>

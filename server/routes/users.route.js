@@ -35,5 +35,7 @@ router.delete('/removeCard/:card_id', ctrlContent.removeCard);
 router.post('/addItem', ctrlContent.addItem);
 router.put('/updateItem', ctrlContent.updateItem);
 router.delete('/removeItem/:card_id/:item_id', ctrlContent.removeItem);
-
+//user
+router.put('/wizardUserUpdate', ctrlContent.updateWizard);
+router.get('/wizardUserCheck/:user_id', ctrlContent.checkWizard);
 module.exports = router;

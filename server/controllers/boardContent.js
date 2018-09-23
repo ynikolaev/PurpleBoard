@@ -4,6 +4,7 @@ const Board = mongoose.model('Boards');
 const profile = require('./profile');
 const Card = mongoose.model('Cards');
 const Item = mongoose.model('Items');
+const User = mongoose.model('Users');
 
 // BOARDS
 module.exports.addBoard = function (req, res) {
@@ -258,3 +259,30 @@ module.exports.removeItem = function (req, res) {
     });
 };
 
+module.exports.updateWizard = function (req, res) {
+    let user_id = new mongoose.Types.ObjectId(req.body.user_id);
+    let newvalues = { isFirstTime: false };
+    User.findByIdAndUpdate(user_id, newvalues, function (err, response) {
+        if (err) {
+            res.json({ success: false, message: "Error updating data" });
+        } else {
+            res.json({ success: true, message: "User updated" });
+        }
+    });
+
+};
+
+module.exports.checkWizard = function (req, res) {
+    let user_id = new mongoose.Types.ObjectId(req.params.user_id);
+    User.findById({ _id: user_id }, function (err, user) {
+        if (err) {
+            return res.status(400).json({ success: false, message: `Failed to load the user. Error: ${err}` });
+        }
+        if (user) {
+            return res.json({ success: true, result: user.isFirstTime });
+        } else {
+            return res.json({ success: false, message: `Failed to find User. Error: ${err}` });
+        }
+    });
+
+};

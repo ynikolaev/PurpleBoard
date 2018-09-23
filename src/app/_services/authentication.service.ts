@@ -14,6 +14,7 @@ export interface UserDetails {
     lastname: string;
     exp: number;
     iat: number;
+    isFirstTime: boolean;
 }
 
 export interface TokenPayload {
@@ -91,6 +92,15 @@ export class AuthenticationService {
         const user = this.getUserDetails();
         if (user) {
             return user._id;
+        } else {
+            return null;
+        }
+    }
+
+    public checkFirstTime(): Boolean {
+        const user = this.getUserDetails();
+        if (user) {
+            return user.isFirstTime;
         } else {
             return null;
         }

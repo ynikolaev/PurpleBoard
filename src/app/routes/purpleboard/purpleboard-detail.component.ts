@@ -10,6 +10,7 @@ import { trigger, state, style, animate, transition, keyframes, group, query, st
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SortEvent } from '../../draggable/sortable-list.directive';
+import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
     templateUrl: './purpleboard-detail.component.html',
@@ -49,13 +50,13 @@ import { SortEvent } from '../../draggable/sortable-list.directive';
 
                 query(':enter', style({ opacity: 0 }), { optional: true }),
 
-                query(':enter', stagger('200ms', [
+                query(':enter', stagger('1s', [
                     animate('500ms ease-in', keyframes([
                         style({ opacity: 0, transform: 'translateX(-75%)', offset: 0 }),
                         style({ opacity: .5, transform: 'translateX(-15px)', offset: 0.6 }),
                         style({ opacity: 1, transform: 'translateX(0)', offset: 1.0 }),
                     ]))]), { optional: true }),
-                query(':leave', stagger('200ms', [
+                query(':leave', stagger('400ms', [
                     animate('500ms ease-out', keyframes([
                         style({ opacity: 1, transform: 'translateX(0)', offset: 0 }),
                         style({ opacity: .5, transform: 'translateX(-15px)', offset: 0.6 }),
@@ -98,6 +99,8 @@ export class PurpleBoardDetailComponent implements OnInit {
     public boards: BoardDetails[] = [];
     public cards: CardDetails[] = [];
     public items: ItemDetails[] = [];
+    private owner_id: String;
+    private current_id: String;
     //Base Variables
     public board_id: String;
     public ifEmpty: Boolean = false;
@@ -158,7 +161,8 @@ export class PurpleBoardDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private boardService: PurpleboardService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private auth: AuthenticationService
     ) { }
 
     sortableList = [
@@ -190,13 +194,28 @@ export class PurpleBoardDetailComponent implements OnInit {
             this.boardInfo._id = String(params['id']);
             this.board_id = String(params['id']);
         });
-        this.getBoard(this.board_id);
+        this.checkAccess(this.board_id);
+    }
+
+    public checkAccess(board_id: String): void {
+        this.boardService.getBoard(String(board_id)).subscribe((boards) => {
+            this.boards = boards["boards"];
+            this.owner_id = boards["boards"]["owner_id"];
+            this.current_id = this.auth.getId();
+            if (this.owner_id === this.current_id){
+                this.getBoard(board_id);
+            } else {
+                this.router.navigateByUrl('/home');
+            }
+        }, (err) => {
+            console.error(err);
+        });
     }
 
     public getBoard(board_id: String): void {
         this.boardService.getBoard(String(board_id)).subscribe((boards) => {
             this.boards = boards["boards"];
-            //console.log(this.boards);
+            console.log(this.boards);
             this.getCards(board_id);
         }, (err) => {
             console.error(err);

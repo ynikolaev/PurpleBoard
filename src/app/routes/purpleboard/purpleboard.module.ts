@@ -11,8 +11,8 @@ import { PurpleboardService } from '../../_services/purpleboard.service';
 import { PurpleboardRoutingModule } from './purpleboard-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DraggableModule } from '../../draggable/draggable.module';
-import { DragulaModule } from 'ng2-dragula';
- 
+import { ClarityModule, ClrModal, ClrWizard } from '@clr/angular';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +23,7 @@ import { DragulaModule } from 'ng2-dragula';
     BrowserAnimationsModule,
     AngularFontAwesomeModule,
     DraggableModule,
-    DragulaModule
+    ClarityModule
   ],
   declarations: [
     PurpleBoardDetailComponent,

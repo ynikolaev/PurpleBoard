@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -11,6 +11,7 @@ import { AuthenticationService } from '../../_services/authentication.service';
 import { trigger, state, style, animate, transition, keyframes, group, query, stagger, animateChild } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ClrWizard } from "@clr/angular";
 
 @Component({
     templateUrl: './purpleboard.component.html',
@@ -30,7 +31,7 @@ import { debounceTime } from 'rxjs/operators';
         trigger('errorHeader', [
             transition(':enter', [
                 style({ transform: 'scale(0.5)', opacity: 0 }),  // initial
-                animate('500ms cubic-bezier(.42, 0, 1, 1)',
+                animate('500ms ease-in',
                     style({ transform: 'scale(1)', opacity: 1 }))  // final
             ])
         ]),
@@ -39,17 +40,17 @@ import { debounceTime } from 'rxjs/operators';
 
                 query(':enter', style({ transform: 'scale(0.5)', opacity: 0 }), { optional: true }),
 
-                query(':enter', stagger('0.15s', [
-                    animate('0.6s 0.5s ease-in', keyframes([
+                query(':enter', stagger('0.5s', [
+                    animate('1s 0.5s ease-in', keyframes([
                         style({ opacity: 0, transform: 'translateX(-75%)', offset: 0 }),
                         style({ opacity: .5, transform: 'translateX(-35px)', offset: 0.3 }),
                         style({ opacity: 1, transform: 'translateX(0)', offset: 1.0 }),
                     ]))]), { optional: true }),
-                query(':leave', stagger('150ms', [
-                    animate('0.4s 0.5s ease-out', keyframes([
-                        style({ opacity: 1, transform: 'translateX(0)', offset: 0 }),
-                        style({ opacity: .5, transform: 'translateX(-35px)', offset: 0.3 }),
-                        style({ opacity: 0, transform: 'translateX(-100%)', offset: 1.0 }),
+                query(':leave', stagger('1s', [
+                    animate('0.5s ease-out', keyframes([
+                        style({ opacity: 1, transform: 'translateY(0)', offset: 0 }),
+                        style({ opacity: .5, transform: 'translateY(35px)', offset: 0.5 }),
+                        style({ opacity: 0, transform: 'translateY(100%)', offset: 1.0 }),
                     ]))]), { optional: true })
             ])
         ]),
@@ -69,6 +70,11 @@ import { debounceTime } from 'rxjs/operators';
 })
 
 export class PurpleBoardComponent implements OnInit {
+    //User Wizard
+    private firstTime: Boolean;
+    @ViewChild("wizardmd") wizardMedium: ClrWizard;
+    mdOpen: boolean = false;
+    public showCancelConfirm: boolean = false;
     //Alert
     private _success = new Subject<string>();
     public alertType: String = "success";
@@ -107,6 +113,7 @@ export class PurpleBoardComponent implements OnInit {
 
     ngOnInit(): void {
         window.scrollTo(0, 0);
+        this.checkFirstTime();
         //alert settings
         setTimeout(() => this.staticAlertClosed = true, 20000);
         this._success.subscribe((message) => this.successMessage = message);
@@ -115,7 +122,23 @@ export class PurpleBoardComponent implements OnInit {
         ).subscribe(() => this.successMessage = null);
 
         console.log(this.auth.isLoggedIn());
-        this.getBoards();
+        console.log(`Check first time: ${this.auth.checkFirstTime()}`);
+    }
+
+    checkFirstTime() {
+        this.boardService.checkWizardStart(String(this.auth.getId())).subscribe((result) => {
+            if (result["success"] = true) {
+                this.firstTime = result["result"];
+                if (this.firstTime === true) {
+                    this.mdOpen = true;
+                } else {
+                    this.mdOpen = false;
+                    this.getBoards();
+                }
+            }
+        }, (err) => {
+            console.error(err);
+        });
     }
 
     getBoards() {
@@ -164,9 +187,9 @@ export class PurpleBoardComponent implements OnInit {
                     if (result["success"] === true) {
                         this.boards[boardIndex]["title"] = String(this.boardInfo.title);
                         this.boards[boardIndex]["description"] = String(this.boardInfo.description);
-                        this.changeSuccessMessage(`Item was changed successfully!`, `success`);
+                        this.changeSuccessMessage(`Card was changed successfully!`, `success`);
                     } else {
-                        this.changeSuccessMessage(`Item wasn't changed!`, `warning`);
+                        this.changeSuccessMessage(`Card wasn't changed!`, `warning`);
                     }
                 })
             }
@@ -211,5 +234,34 @@ export class PurpleBoardComponent implements OnInit {
 
     toggleState() {
         this.state = this.state === 'active' ? 'inactive' : 'active';
+    }
+
+    //WIZARD
+    public pageCustomCancel(): void {
+        this.showCancelConfirm = true;
+    }
+
+    public doPageCancel() {
+        this.showCancelConfirm = false;
+        this.wizardMedium.close();
+    }
+
+    public doCancel() {
+        if (confirm("Do you really, really want to close the wizard?")) {
+            this.showCancelConfirm = false;
+            this.wizardMedium.close();
+            this.doFinish();
+            this.getBoards();
+        }
+    }
+
+    public doFinish() {
+        this.boardService.updateWizardStart(String(this.auth.getId())).subscribe((result) => {
+            if (result["success"] = true) {
+                this.getBoards();
+            }
+        }, (err) => {
+            console.error(err);
+        });
     }
 }

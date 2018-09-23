@@ -180,6 +180,28 @@ export class PurpleboardService {
             .catch(this.handleError);
     }
 
+    public updateWizardStart(user_id): Observable<any> {
+        let headers = new Headers;
+        let URI = `${apiUrl}/wizardUserUpdate`;
+        let params = {
+            user_id: user_id
+        }
+        headers.append('Content-Type', 'application/json');
+        return this.http.put(URI, params, { headers: headers })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    public checkWizardStart(user_id): Observable<any> {
+        let myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        let options = new RequestOptions({ headers: myHeaders });
+        let URI = `${apiUrl}/wizardUserCheck/${user_id}`;
+        return this.http.get(URI, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     private extractData(res: Response) {
         let body = res.json();
         //console.log("Rcieved body: " + JSON.stringify(body));

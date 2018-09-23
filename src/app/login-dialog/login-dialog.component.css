@@ -61,3 +61,16 @@ hr {
 .welcome {
     padding: 0;
 }
+
+.alert {
+    padding: .1rem 1.25rem;
+}
+
+.alert-item {
+    display: block;
+    padding: 0;
+}
+
+.alert-text {
+    margin-top: 0;
+}
